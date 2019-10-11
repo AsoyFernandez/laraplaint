@@ -100,13 +100,13 @@
 
                     {{-- Menu Manual --}}
                     <li class="header">Main Navigation</li>
-                    <li><a href="#"><i class='fa fa-users'></i><span>{{ trans('Pengguna') }}</span></a></li>
+                    <li><a href="{{ route('user.index') }}"><i class='fa fa-users'></i><span>{{ trans('Pengguna') }}</span></a></li>
                      <li class="treeview">
-                        <a href="#"><i class='fa fa-home'></i><span>{{ trans('Gedung') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <a href="#"><i class='glyphicon glyphicon-briefcase'></i><span>{{ trans('Master') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="#"><i class='fa fa-university'></i> <span>{{ trans('Gedung') }}</span></a></li>
-                            <li><a href="#"><i class='fa fa-home'></i> <span>{{ trans('Gudang') }}</span></a></li>
-                            <li><a href="#"><i class='fa fa-map'></i> <span>{{ trans('Lokasi') }}</span></a></li>
+                            <li><a href="{{ route('kategori.index') }}"><i class='glyphicon glyphicon-tags'></i> <span>{{ trans('Kategori') }}</span></a></li>
+                            <li><a href="{{ route('lokasi.index') }}"><i class='fa fa-university'></i> <span>{{ trans('Lokasi') }}</span></a></li>
+                            <li><a href="{{ route('mesin.index') }}"><i class='glyphicon glyphicon-oil'></i> <span>{{ trans('Mesin') }}</span></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -146,7 +146,14 @@
             @yield('footer')
         </footer>
         @endif
+        <footer class="main-footer ">
+            @yield('footer')
+            {{-- <div class="pull-right hidden-xs">
+              الحقير والفقير إلى رحمة ربه  <a target="_blank" href="#">            أبو جلال الإنجلي   </a>
 
+            </div> --}}
+            {{ trans('Dikembangkan oleh') }} <a target="_blank" href="#">Esa Rizki Hari Utama</a>
+        </footer>
         @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
             <aside class="control-sidebar control-sidebar-{{config('adminlte.right_sidebar_theme')}}">
                 @yield('right-sidebar')
