@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mesin;
 use Illuminate\Http\Request;
-
+use App\Kategori;
 class MesinController extends Controller
 {
     /**
@@ -14,7 +14,8 @@ class MesinController extends Controller
      */
     public function index()
     {
-        //
+        $mesin = Mesin::all();
+        return view('mesin.index', compact('mesin'));
     }
 
     /**
@@ -24,7 +25,8 @@ class MesinController extends Controller
      */
     public function create()
     {
-        //
+        $kategori = Kategori::all();
+        return view('mesin.create', compact('kategori'));
     }
 
     /**

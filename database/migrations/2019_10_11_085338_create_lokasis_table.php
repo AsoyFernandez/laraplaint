@@ -14,7 +14,8 @@ class CreateLokasisTable extends Migration
     public function up()
     {
         Schema::create('lokasis', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->smallIncrements('id');
+            $table->string('nama', 20);
             $table->timestamps();
         });
     }

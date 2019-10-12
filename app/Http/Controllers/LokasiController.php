@@ -14,7 +14,8 @@ class LokasiController extends Controller
      */
     public function index()
     {
-        //
+        $lokasi = Lokasi::all();
+        return view('lokasi.index', compact('lokasi'));
     }
 
     /**
@@ -24,7 +25,7 @@ class LokasiController extends Controller
      */
     public function create()
     {
-        //
+        return view('lokasi.create');
     }
 
     /**
@@ -35,7 +36,17 @@ class LokasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'nama'=>'required|unique:lokasis',
+        ]);
+
+        $lokasi = Lokasi::create($request->all());
+        // Session::flash("flash_notification", [
+        //     "level"=>"success",
+        //     "message"=>"Berhasil menyimpan $lokasi->nama"
+        // ]);
+        alert()->success("Berhasil menyimpan data $lokasi->nama", 'Sukses!')->autoclose(2500);
+        return redirect()->route('lokasi.index');
     }
 
     /**
@@ -57,7 +68,7 @@ class LokasiController extends Controller
      */
     public function edit(Lokasi $lokasi)
     {
-        //
+        return view ('lokasi.edit', compact('lokasi'));
     }
 
     /**
@@ -69,7 +80,10 @@ class LokasiController extends Controller
      */
     public function update(Request $request, Lokasi $lokasi)
     {
-        //
+        $lokasi->update($request->all());
+        alert()->success("Berhasil mengubah data $lokasi->nama", 'Sukses!')->autoclose(2500);
+
+        return redirect()->route('lokasi.index');
     }
 
     /**
@@ -80,6 +94,8 @@ class LokasiController extends Controller
      */
     public function destroy(Lokasi $lokasi)
     {
-        //
+        $lokasi->delete();
+        alert()->success("Berhasil menghapus data lokasi", 'Sukses!')->autoclose(2500);
+        return redirect()->route('lokasi.index');
     }
 }

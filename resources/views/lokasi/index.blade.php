@@ -10,12 +10,12 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Kategori</li>
+                <li class="breadcrumb-item active" aria-current="page">Lokasi</li>
               </ol>
             </nav>
             <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h2 class="box-title">Daftar Kategori</h2>
+                        <h2 class="box-title">Daftar Lokasi</h2>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -25,43 +25,35 @@
                         </div>
                     </div>
                     <div class="box-body">
-                  <p><a class="btn btn-primary" href="{{ route('kategori.create') }}">Tambah</a></p>
-                                       <div class="table-responsive">
+                  <p><a class="btn btn-primary" href="{{ route('lokasi.create') }}">Tambah</a></p>
+                       <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Jumlah Mesin</th>
-                                    <th>Aksi</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody> 
-                                @forelse ($kategori as $log)
+                                @foreach ($lokasi as $log)
                                     <tr>   
                                         <td>
                                             {{ $log->nama }}
                                         </td>
-
-                                        <td>{{ $log->mesins->count() }} Mesin</td>
                                         <td>
-                                            @include('kategori.action')
-                                             
+                                        @include('lokasi.action') 
                                         </td>
                                     </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="2">Tidak ada data</td>
-                                    </tr>
-                                @endforelse
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Nama</th>
-                                    <th>Jumlah Mesin</th>
-                                    <th>Aksi</th>
+                                    <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>
+                        
                     </div>
 
         </div>

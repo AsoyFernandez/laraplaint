@@ -14,8 +14,12 @@ class CreateMesinsTable extends Migration
     public function up()
     {
         Schema::create('mesins', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->smallIncrements('id');
+            $table->string('nama', 30);
+            $table->tinyInteger('kategori_id')->unsigned();
             $table->timestamps();
+
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
