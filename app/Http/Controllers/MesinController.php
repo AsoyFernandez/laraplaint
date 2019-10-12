@@ -37,7 +37,20 @@ class MesinController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'kategori_id' => 'required|exists:kategoris,id',
+            'nama'=>'required|unique:lokasis',
+        ]);
+
+        $mesin = Mesin::create($request->all());
+        // Session::flash("flash_notification", [
+        //     "level"=>"success",
+        //     "message"=>"Berhasil menyimpan $mesin->nama"
+        // ]);
+        alert()->success("Berhasil menyimpan data $mesin->nama", 'Sukses!')->autoclose(2500);
+        return redirect()->route('mesin.index');
+
+        
     }
 
     /**
@@ -59,7 +72,8 @@ class MesinController extends Controller
      */
     public function edit(Mesin $mesin)
     {
-        //
+        $kategori = Kategori::all();
+        return view('mesin.edit', compact('mesin', 'kategori'));
     }
 
     /**
@@ -71,7 +85,10 @@ class MesinController extends Controller
      */
     public function update(Request $request, Mesin $mesin)
     {
-        //
+        $mesin->update($request->all());
+        alert()->success("Berhasil mengubah data $mesin->nama", 'Sukses!')->autoclose(2500);
+
+        return redirect()->route('mesin.index');
     }
 
     /**
@@ -82,6 +99,8 @@ class MesinController extends Controller
      */
     public function destroy(Mesin $mesin)
     {
-        //
+        $mesin->delete();
+        alert()->success("Berhasil menghapus data mesin", 'Sukses!')->autoclose(2500);
+        return redirect()->route('mesin.index');
     }
 }

@@ -9,7 +9,7 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('lokasi.index') }}">Mesin</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('mesin.index') }}">Mesin</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tambah Mesin</li>
               </ol>
             </nav>
