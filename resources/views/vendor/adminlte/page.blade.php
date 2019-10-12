@@ -109,6 +109,7 @@
                             <li><a href="{{ route('mesin.index') }}"><i class='glyphicon glyphicon-oil'></i> <span>{{ trans('Mesin') }}</span></a></li>
                         </ul>
                     </li>
+                    <li><a href="{{ route('pengaduan.index') }}"><i class='glyphicon glyphicon-send'></i><span>{{ trans('Pengaduan') }}</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

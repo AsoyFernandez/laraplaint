@@ -22,3 +22,4 @@ Route::resource('user', 'UserController');
 Route::resource('lokasi', 'LokasiController');
 Route::resource('kategori', 'KategoriController');
 Route::resource('mesin', 'MesinController');
+Route::resource('pengaduan', 'PengaduanController');

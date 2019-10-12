@@ -17,7 +17,7 @@ class LokasiController extends Controller
         $lokasi = Lokasi::all();
         return view('lokasi.index', compact('lokasi'));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *

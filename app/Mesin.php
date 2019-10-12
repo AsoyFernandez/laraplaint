@@ -11,4 +11,8 @@ class Mesin extends Model
     public function kategori(){
     	return $this->belongsTo('App\Kategori');
     }
+
+    public function pengaduans(){
+    	return $this->hasMany('App\Pengaduan');
+    }
 }
