@@ -96,7 +96,7 @@ class PengaduanController extends Controller
             // menyimpan cover ke folder public/img
                 $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
                 $uploaded_foto->move($destinationPath, $filename);
-            // mengisi field cover di barang dengan filename yang baru dibuat
+            // mengisi field cover di pengaduan dengan filename yang baru dibuat
                 $pengaduan->foto = $filename;
                 
 
@@ -155,6 +155,16 @@ class PengaduanController extends Controller
      */
     public function destroy(Pengaduan $pengaduan)
     {
+        if ($pengaduan->foto) {
+        $old_foto = $pengaduan->foto;
+        $filepath = public_path() . DIRECTORY_SEPARATOR . 'img'
+        . DIRECTORY_SEPARATOR . $pengaduan->foto;
+        try {
+        File::delete($filepath);
+        } catch (FileNotFoundException $e) {
+        // File sudah dihapus/tidak ada
+        }
+        }
         $pengaduan->delete();
         alert()->success("Berhasil menghapus data pengaduan", 'Sukses!')->autoclose(2500);
         return redirect()->route('pengaduan.index');
