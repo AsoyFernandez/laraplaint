@@ -24,9 +24,9 @@ class CreatePengaduansTable extends Migration
             $table->text('keterangan');
             $table->timestamps();
 
-            $table->foreign('mesin_id')->references('id')->on('mesins')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('lokasi_id')->references('id')->on('lokasis')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('mesin_id')->references('id')->on('mesins')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('lokasi_id')->references('id')->on('lokasis')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('restrict');
         });
     }
 

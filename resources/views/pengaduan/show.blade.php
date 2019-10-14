@@ -10,12 +10,13 @@
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Pengaduan</li>
+                <li class="breadcrumb-item"><a href="{{ route('pengaduan.index') }}">Pengaduan</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Riwayat Penanganan</li>
               </ol>
             </nav>
             <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h2 class="box-title">Daftar Pengaduan</h2>
+                        <h2 class="box-title">Riwayat Penanganan Pengaduan {{ $pengaduan->no_pengaduan }}</h2>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -31,43 +32,32 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Mesin</th>
-                                    <th>Lokasi</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th>Waktu</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody> 
-                                @foreach ($pengaduan as $log)
+                                @foreach ($pengaduan->penanganan->riwayats as $log)
                                     <tr>   
-                                        <td>{{ $log->no_pengaduan }}</td>
-                                        <td>{{ $log->mesin->nama }}</td>
-                                        <td>{{ $log->lokasi->nama }}</td>
+                                        <td>{{ $pengaduan->no_pengaduan }}</td>
                                         @if ($log->status == 0)
-                                            <td>Belum ditangani</td>
-                                            @elseif($log->status == 1)
-                                            <td><a href="#myModal" id="openBtn" data-toggle="modal" data-target="{{ '#' . $log->id . 'modal' }}">Dalam Penanganan</a>
-                                            @include('pengaduan.pic', ['object' => $log])</td>
-                                            @elseif($log->status == 2)
-                                            <td>Menunggu</td>
-                                            @elseif($log->status == 3)
-                                            <td>Selesai</td>
+                                        <td>Menunggu</td>
+                                        @else
+                                        <td>Selesai</td>
                                         @endif
                                         <td>{{ $log->keterangan }}</td>
-                                        <td>
-                                        @include('pengaduan.action') 
-                                        </td>
+                                        <td>{{ $log->created_at }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>No</th>
-                                    <th>Mesin</th>
-                                    <th>Lokasi</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th>Waktu</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

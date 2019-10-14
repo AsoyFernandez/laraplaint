@@ -23,3 +23,6 @@ Route::resource('lokasi', 'LokasiController');
 Route::resource('kategori', 'KategoriController');
 Route::resource('mesin', 'MesinController');
 Route::resource('pengaduan', 'PengaduanController');
+
+Route::resource('penanganan', 'PenangananController');
+Route::resource('riwayat', 'RiwayatController');

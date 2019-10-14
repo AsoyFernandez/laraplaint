@@ -116,7 +116,7 @@ class PengaduanController extends Controller
      */
     public function show(Pengaduan $pengaduan)
     {
-        //
+        return view('pengaduan.show',compact('pengaduan'));
     }
 
     /**

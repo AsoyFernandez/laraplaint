@@ -16,10 +16,12 @@ class CreateMesinsTable extends Migration
         Schema::create('mesins', function (Blueprint $table) {
             $table->smallIncrements('id');
             $table->string('nama', 30);
-            $table->tinyInteger('kategori_id')->unsigned();
+            $table->tinyInteger('kategori_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->onUpdate('cascade')->onDelete('set null');
+
+            
         });
     }
 

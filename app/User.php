@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function pengaduans(){
         return $this->hasMany('App\Pengaduan');
     }
+
+    public function penanganans(){
+        return $this->hasMany('App\Penanganan');
+    }
 }

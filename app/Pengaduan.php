@@ -19,4 +19,8 @@ class Pengaduan extends Model
     public function user(){
     	return $this->belongsTo('App\User');
     }
+
+    public function penanganan(){
+        return $this->hasOne('App\Penanganan');
+    }
 }
