@@ -50,8 +50,6 @@
                                             <td><a href="#myModal" id="openBtn" data-toggle="modal" data-target="{{ '#' . $log->id . 'modal' }}">Dalam Penanganan</a>
                                             @include('pengaduan.pic', ['object' => $log])</td>
                                             @elseif($log->status == 2)
-                                            <td>Menunggu</td>
-                                            @elseif($log->status == 3)
                                             <td>Selesai</td>
                                         @endif
                                         <td>{{ $log->keterangan }}</td>

@@ -70,6 +70,8 @@ class RiwayatController extends Controller
                     'status'=>2,
                 ]);
             }
+            alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
+            return redirect()->route('pengaduan.index');
 
     }
 
