@@ -18,6 +18,7 @@ class CreateLokasisTable extends Migration
             $table->string('nama', 20);
             $table->timestamps();
         });
+
     }
 
     /**

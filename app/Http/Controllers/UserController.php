@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Alert;
 use App\User;
 use App\Role;
+use App\Lokasi;
 class UserController extends Controller
 {
     /**
@@ -27,8 +28,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $lokasi = Lokasi::all();
         $role = Role::all();
-        return view('user.create', compact('role'));
+        return view('user.create', compact('role', 'lokasi'));
     }
 
     /**
@@ -54,6 +56,12 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        if (isset($request->lokasi_id)) {
+            for ($i=0; $i < count($request->lokasi_id); $i++) { 
+                $user->lokasis()->attach(Lokasi::find($request->lokasi_id[$i]));
+            }
+        }
 
         alert()->success("Berhasil menyimpan data $user->name", 'Sukses!')->autoclose(2500);
         // Session::flash("flash_notification", [
@@ -82,9 +90,30 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::findOrFail($id);
+        // $lokasiUserIds = [];
+        // $user = User::find($id);
+        // $lokasi = Lokasi::all();
+        // foreach($user->lokasis as $lokasi)
+        // {
+        //     $lokasiUserIds[] = $lokasi->id;
+        // }
+        // echo "$lokasiUserIds";
+        // dd('stop');        
+        // $lokasi = Lokasi::all();
+        // $user = User::findOrFail($id);
+        $lokasiUser = [];
+        $user = User::find($id);
+        $lokasi = Lokasi::all();
+        foreach($user->lokasis as $userCity)
+        {
+            $lokasiUser[] = $userCity->id;
+        }      
+        // foreach ($lokasi as $key) {
+        //     in_array($key->id, $lokasiUser);
+        // }
+        //   dd($lokasiUser);
         $role = Role::all();
-        return view('user.edit', compact('user', 'role'));
+        return view('user.edit', compact('user', 'role', 'lokasi', 'lokasiUser'));
     }
 
     public function profile($id)
@@ -102,13 +131,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'name'=>'required',
+            'nik'=>'required|max:12',
+            'role_id' => 'required|exists:roles,id',
+            'email' => 'required',
+            
+        ]);
         $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->update($request->except('lokasi_id'));
         if ($request->has('password')) {
             $user->update([
                 'password'=>Hash::make($request->password),
             ]);
         }
+        // dd($request->all());
+
+        $user->lokasis()->sync($request->lokasi_id);
+        
 
         alert()->success("Berhasil mengubah data $user->name", 'Sukses!')->autoclose(2500);
 

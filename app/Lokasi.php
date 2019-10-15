@@ -11,4 +11,8 @@ class Lokasi extends Model
     public function pengaduans(){
     	return $this->hasMany('App\Pengaduan');
     }
+
+    public function users(){
+    	return $this->belongsToMany('App\User');
+    }
 }

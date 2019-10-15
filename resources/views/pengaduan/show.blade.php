@@ -39,6 +39,8 @@
                                 </tr>
                             </thead>
                             <tbody> 
+                                @if (!is_null($pengaduan->penanganan))
+                                @if (!is_null($pengaduan->penanganan->riwayats))
                                 @foreach ($pengaduan->penanganan->riwayats as $log)
                                     <tr>   
                                         <td>{{ $pengaduan->no_pengaduan }}</td>
@@ -51,6 +53,8 @@
                                         <td>{{ $log->created_at }}</td>
                                     </tr>
                                 @endforeach
+                                @endif
+                                @endif
                             </tbody>
                             <tfoot>
                                 <tr>

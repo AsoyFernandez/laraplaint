@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Mesin;
 use App\Lokasi;
 use File;
+use Auth;
 class PengaduanController extends Controller
 {
     /**
@@ -17,6 +18,9 @@ class PengaduanController extends Controller
     public function index()
     {
         $pengaduan = Pengaduan::all();
+        if (Auth::user()->role->id == 2) {
+            $pengaduan = Pengaduan::where('user_id', Auth::id())->get();
+        }
         return view('pengaduan.index', compact('pengaduan'));
     }
 

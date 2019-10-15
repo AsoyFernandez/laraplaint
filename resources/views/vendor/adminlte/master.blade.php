@@ -101,6 +101,15 @@
         allowClear: true
     });
 
+        $('.js-example-basic-multiple').select2({
+        placeholder: 'Silahkan pilih data',
+        allowClear: true,
+        multiple: true,
+    });
+        var selectedValues = $("#lokasi").val().split(',');
+        $(".js-example-basic-multiple").select2('val',selectedValues);
+        // $('.js-example-basic-multiple').val(selectedValuesTest).trigger("change");
+
 } );
 </script>
 <script>

@@ -100,6 +100,8 @@
 
                     {{-- Menu Manual --}}
                     <li class="header">Main Navigation</li>
+                    @if (Auth::user()->role->id == 1)
+                        {{-- expr --}}
                     <li><a href="{{ route('user.index') }}"><i class='fa fa-users'></i><span>{{ trans('Pengguna') }}</span></a></li>
                      <li class="treeview">
                         <a href="#"><i class='glyphicon glyphicon-briefcase'></i><span>{{ trans('Master') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
@@ -109,6 +111,7 @@
                             <li><a href="{{ route('mesin.index') }}"><i class='glyphicon glyphicon-oil'></i> <span>{{ trans('Mesin') }}</span></a></li>
                         </ul>
                     </li>
+                    @endif
                     <li><a href="{{ route('pengaduan.index') }}"><i class='glyphicon glyphicon-send'></i><span>{{ trans('Pengaduan') }}</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->

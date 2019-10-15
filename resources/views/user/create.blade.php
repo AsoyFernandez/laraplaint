@@ -77,6 +77,24 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Lokasi') }}</label>
+
+                            <div class="col-md-6">
+                                <select class="js-example-basic-single form-control" name="lokasi_id[]" multiple="multiple">
+                                  @foreach($lokasi as $key)
+                                    <option value="{{ $key->id }}">{{ $key->nama }}</option>
+                                  @endforeach
+                                </select>
+
+                                @error('lokasi')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="email" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Email') }}</label>
 
                             <div class="col-md-6">
