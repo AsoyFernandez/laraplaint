@@ -15,4 +15,8 @@ class Mesin extends Model
     public function pengaduans(){
     	return $this->hasMany('App\Pengaduan');
     }
+
+    public function lokasis(){
+    	return $this->belongsToMany('App\Lokasi');
+    }
 }

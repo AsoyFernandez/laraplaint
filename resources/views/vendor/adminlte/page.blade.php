@@ -107,12 +107,14 @@
                         <a href="#"><i class='glyphicon glyphicon-briefcase'></i><span>{{ trans('Master') }}</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
                             <li><a href="{{ route('kategori.index') }}"><i class='glyphicon glyphicon-tags'></i> <span>{{ trans('Kategori') }}</span></a></li>
-                            <li><a href="{{ route('lokasi.index') }}"><i class='fa fa-university'></i> <span>{{ trans('Lokasi') }}</span></a></li>
                             <li><a href="{{ route('mesin.index') }}"><i class='glyphicon glyphicon-oil'></i> <span>{{ trans('Mesin') }}</span></a></li>
+                            <li><a href="{{ route('lokasi.index') }}"><i class='fa fa-university'></i> <span>{{ trans('Lokasi') }}</span></a></li>
                         </ul>
                     </li>
                     @endif
                     <li><a href="{{ route('pengaduan.index') }}"><i class='glyphicon glyphicon-send'></i><span>{{ trans('Pengaduan') }}</span></a></li>
+                    <li class="header">Account Setting</li>
+                    {{-- <li><a href="{{ route('qr.index') }}"><i class='glyphicon glyphicon-qrcode'></i> <span>{{ trans('QR Code') }}</span></a></li> --}}
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

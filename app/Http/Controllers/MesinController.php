@@ -18,6 +18,12 @@ class MesinController extends Controller
         return view('mesin.index', compact('mesin'));
     }
 
+    public function ajaxSearch(Request $request){
+        $keyword = $request->get('q');
+        $mesins = Mesin::where("nama", "LIKE", "%$keyword%")->get();
+        return $mesins;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

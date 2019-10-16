@@ -17,7 +17,12 @@ class LokasiController extends Controller
         $lokasi = Lokasi::all();
         return view('lokasi.index', compact('lokasi'));
     }
- 
+    
+    public function ajaxSearch(Request $request){
+        $keyword = $request->get('q');
+        $lokasi = Lokasi::where("nama", "LIKE", "%$keyword%")->get();
+        return $lokasi;
+    }
     /**
      * Show the form for creating a new resource.
      *

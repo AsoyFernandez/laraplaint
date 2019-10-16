@@ -35,11 +35,7 @@
                             <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Lokasi') }}</label>
 
                             <div class="col-md-6">
-                                <select class="js-example-basic-single form-control" name="lokasi_id">
-                                  <option value="" disabled selected></option>
-                                  @foreach($lokasi as $key)
-                                    <option value="{{ $key->id }}">{{ $key->nama }}</option>
-                                  @endforeach
+                                <select class="lokasi form-control" name="lokasi_id">
                                 </select>
 
                                 @error('lokasi')
@@ -54,11 +50,8 @@
                             <label for="mesin" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Mesin') }}</label>
 
                             <div class="col-md-6">
-                                <select class="js-example-basic-single form-control" name="mesin_id">
-                                  <option value="" disabled selected></option>
-                                  @foreach($mesin as $key)
-                                    <option value="{{ $key->id }}">{{ $key->nama }}</option>
-                                  @endforeach
+                                <select class="mesin form-control" name="mesin_id">
+                                  
                                 </select>
 
                                 @error('mesin')
@@ -131,5 +124,54 @@
         };
         reader.readAsDataURL(input.files[0]);
       };
+    </script>
+    <script>
+    $('.mesin').select2({
+        placeholder: 'Silahkan cari data',
+        minimumInputLength: 2,
+        ajax: {
+                url: '{{ url(route('mesin.search')) }}',
+                processResults: function(data){
+                return {
+                results: data.map(function(item){return {id: item.id, text:
+                item.nama} })
+                }
+            }
+        }
+    });
+    $('.lokasi').select2({
+        placeholder: 'Silahkan cari data',
+        minimumInputLength: 2,
+        ajax: {
+                url: '{{ url(route('lokasi.search')) }}',
+                processResults: function(data){
+                return {
+                results: data.map(function(item){return {id: item.id, text:
+                item.nama} })
+                }
+            }
+        }
+    });
+     // $('.cariMesin').select2({
+     //    placeholder: 'Cari...',
+     //    minimumInputLength: 3,
+     //    ajax: {
+     //      url: '{{ url(route('mesin.search')) }}',
+     //      dataType: 'json',
+     //      delay: 250,
+     //      processResults: function (data) {
+     //        return {
+     //          results:  $.map(data, function (item) {
+     //            return {
+     //              id: item.id,
+     //              text: item.nama,
+     //            }
+     //          })
+     //        };
+     //      },
+     //      cache: true
+     //    }
+     //  });
+</script>
     </script>
 @stop

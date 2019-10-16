@@ -15,4 +15,8 @@ class Lokasi extends Model
     public function users(){
     	return $this->belongsToMany('App\User');
     }
+
+    public function mesins(){
+    	return $this->belongsToMany('App\Mesin');
+    }
 }

@@ -36,6 +36,10 @@ class PengaduanController extends Controller
         return view('pengaduan.create', compact('mesin', 'lokasi'));
     }
 
+    public function createQR($lokasi, $mesin){
+
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -44,6 +48,7 @@ class PengaduanController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
 
         $this->validate($request,[
             'user_id'=>'required|exists:users,id',
