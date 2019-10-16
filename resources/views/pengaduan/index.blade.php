@@ -35,13 +35,15 @@
                                     <th>Lokasi</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th>Waktu</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody> 
                                 @foreach ($pengaduan as $log)
                                     <tr>   
-                                        <td>{{ $log->no_pengaduan }}</td>
+                                        <td><a href="#myModal" id="openBtn" data-toggle="modal" data-target="{{ '#' . $log->id . 'gambar' }}">{{ $log->no_pengaduan }}</a>
+                                            @include('pengaduan.gambar', ['object' => $log])</td>
                                         <td>{{ $log->mesin->nama }}</td>
                                         <td>{{ $log->lokasi->nama }}</td>
                                         @if ($log->status == 0)
@@ -53,6 +55,7 @@
                                             <td>Selesai</td>
                                         @endif
                                         <td>{{ $log->keterangan }}</td>
+                                        <td>{{ $log->created_at }}</td>
                                         <td>
                                         @include('pengaduan.action') 
                                         </td>
@@ -66,6 +69,7 @@
                                     <th>Lokasi</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
+                                    <th>Waktu</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

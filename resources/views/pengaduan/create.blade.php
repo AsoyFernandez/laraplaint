@@ -30,6 +30,10 @@
                         @csrf
 
                         <input type="hidden" value="{{ Auth::id() }}" name="user_id">
+                        @if (Request::route()->getName() == "pengaduan.createQR")
+                        <input type="hidden" value="{{ $lokasi->id }}" name="lokasi_id">
+                        <input type="hidden" value="{{ $mesin->id }}" name="mesin_id">
+                        @endif
                         
                         <div class="form-group row">
                             <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Lokasi') }}</label>

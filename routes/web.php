@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+ 
 Route::get('/', function () {
     return view('welcome');
 });
@@ -18,6 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware'=>['auth']], function () {
 Route::resource('user', 'UserController');
 Route::get('/ajax/lokasi/search', 'LokasiController@ajaxSearch')->name('lokasi.search');
 Route::resource('lokasi', 'LokasiController');
@@ -40,3 +41,4 @@ Route::delete('/lokasiMesin/{lokasi}/{mesin}', 'LokasiMesinController@destroy')-
 
 Route::get('/qr', 'QRCodeController@index')->name('qr.index');
 Route::get('/qr/{lokasi}/{mesin}', 'QRCodeController@create')->name('qr.create');
+});

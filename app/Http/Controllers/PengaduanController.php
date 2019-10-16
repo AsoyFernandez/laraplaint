@@ -8,6 +8,7 @@ use App\Mesin;
 use App\Lokasi;
 use File;
 use Auth;
+use Mail;
 class PengaduanController extends Controller
 {
     /**
@@ -52,8 +53,8 @@ class PengaduanController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
-
+        $lokasi = Lokasi::find($request->lokasi_id);
+        $mesin = Mesin::find($request->mesin_id);
         $this->validate($request,[
             'user_id'=>'required|exists:users,id',
             'lokasi_id'=>'required|exists:lokasis,id',
@@ -117,8 +118,21 @@ class PengaduanController extends Controller
             }
             ;
 
-            alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
-            return redirect()->route('pengaduan.index');
+            try{
+                Mail::send('email', ['lokasi' => $lokasi, 'mesin' => $mesin, 'keterangan' => $request->keterangan], function ($message) use ($request)
+                {
+                    $message->subject('Pengaduan Kerusakan Mesin');
+                    $message->from('laraplaint@gmail.com', 'Admin Laraplaint');
+                    $message->to('esarizki15@gmail.com');
+                });
+                return back()->with('alert-success','Berhasil Kirim Email');
+            }
+            catch (Exception $e){
+                return response (['status' => false,'errors' => $e->getMessage()]);
+            }
+
+            // alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
+            // return redirect()->route('pengaduan.index');
     }
 
     /**
