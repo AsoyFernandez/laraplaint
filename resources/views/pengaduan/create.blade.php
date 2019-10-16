@@ -35,8 +35,14 @@
                             <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Lokasi') }}</label>
 
                             <div class="col-md-6">
+                                @if (Request::route()->getName() == "pengaduan.createQR")
+                                <select class="js-example-basic-single form-control" name="lokasi_id" disabled="">
+                                  <option value="{{ $lokasi->id }}" disabled selected>{{ $lokasi->nama }}</option>
+                                </select>
+                                @else
                                 <select class="lokasi form-control" name="lokasi_id">
                                 </select>
+                                @endif
 
                                 @error('lokasi')
                                     <span class="invalid-feedback" role="alert">
@@ -50,10 +56,15 @@
                             <label for="mesin" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Mesin') }}</label>
 
                             <div class="col-md-6">
+                                @if (Request::route()->getName() == "pengaduan.createQR")
+                                <select class="js-example-basic-single form-control" name="mesin_id" disabled="">
+                                  <option value="{{ $mesin->id }}" disabled selected>{{ $mesin->nama }}</option>
+                                </select>
+                                @else
                                 <select class="mesin form-control" name="mesin_id">
                                   
                                 </select>
-
+                                @endif
                                 @error('mesin')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

@@ -24,7 +24,7 @@ Route::resource('lokasi', 'LokasiController');
 Route::resource('kategori', 'KategoriController');
 Route::get('/ajax/mesin/search', 'MesinController@ajaxSearch')->name('mesin.search');
 Route::resource('mesin', 'MesinController');
-Route::get('pengaduan/{lokasi}/{mesin}','PengaduanController@createQR')->name('pengaduan.createQR');
+Route::get('pengaduan/create/{lokasi}/{mesin}','PengaduanController@autoCreate')->name('pengaduan.createQR');
 Route::resource('pengaduan', 'PengaduanController');
 Route::resource('penanganan', 'PenangananController');
 Route::resource('riwayat', 'RiwayatController');

@@ -36,9 +36,13 @@ class PengaduanController extends Controller
         return view('pengaduan.create', compact('mesin', 'lokasi'));
     }
 
-    public function createQR($lokasi, $mesin){
-
+    public function autoCreate($lokasi, $mesin)
+    {
+        $lokasi = Lokasi::find($lokasi);
+        $mesin = Mesin::find($mesin);
+        return view('pengaduan.create', compact('mesin', 'lokasi'));
     }
+
 
     /**
      * Store a newly created resource in storage.

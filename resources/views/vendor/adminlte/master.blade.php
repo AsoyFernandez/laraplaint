@@ -98,7 +98,8 @@
 
         $('.js-example-basic-single').select2({
         placeholder: 'Silahkan pilih data',
-        allowClear: true
+        allowClear: true,
+        minimumInputLength: 2,
     });
 
         $('.js-example-basic-multiple').select2({
