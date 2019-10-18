@@ -129,6 +129,7 @@ class PengaduanController extends Controller
                 $pengaduan->save();
             }
             ;
+               
         // kirim email
             if ($lokasi->users != "[]") {
                 foreach ($lokasi->users as $log) {
@@ -136,11 +137,10 @@ class PengaduanController extends Controller
                     // $m->to($log->email, $log->name)->subject('Anda telah didaftarkan di Larapus!');
                     // });
                         
-                    Mail::to($log->email)->send(new PengaduanEmail($data));
+                    $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
                     
                 }
             }
-               
             return redirect()->route('pengaduan.index');
             // try{
             //     Mail::send('email', ['lokasi' => $lokasi, 'mesin' => $mesin, 'keterangan' => $request->keterangan], function ($message) use ($request)
