@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Mail\PengaduanEmail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -14,6 +16,12 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function email(){
+        Mail::to("testing@malasngoding.com")->send(new PengaduanEmail());
+ 
+            return "Email telah dikirim";
     }
 
     /**

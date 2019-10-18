@@ -8,7 +8,10 @@ use App\Mesin;
 use App\Lokasi;
 use File;
 use Auth;
-use Mail;
+use App\Mail\PengaduanEmail;
+use Illuminate\Support\Facades\Mail;
+use App\Jobs\SendEmail;
+use App\User;
 class PengaduanController extends Controller
 {
     /**
@@ -55,6 +58,15 @@ class PengaduanController extends Controller
     {
         $lokasi = Lokasi::find($request->lokasi_id);
         $mesin = Mesin::find($request->mesin_id);
+        $user = User::find($request->user_id);
+        $data = [
+            'lokasi' => $lokasi->nama,
+            'mesin' => $mesin->nama,
+            'user' => $user->name,
+            'keterangan' => $request->keterangan,
+        ];
+
+
         $this->validate($request,[
             'user_id'=>'required|exists:users,id',
             'lokasi_id'=>'required|exists:lokasis,id',
@@ -117,19 +129,31 @@ class PengaduanController extends Controller
                 $pengaduan->save();
             }
             ;
-
-            try{
-                Mail::send('email', ['lokasi' => $lokasi, 'mesin' => $mesin, 'keterangan' => $request->keterangan], function ($message) use ($request)
-                {
-                    $message->subject('Pengaduan Kerusakan Mesin');
-                    $message->from('laraplaint@gmail.com', 'Admin Laraplaint');
-                    $message->to('esarizki15@gmail.com');
-                });
-                return back()->with('alert-success','Berhasil Kirim Email');
+        // kirim email
+            if ($lokasi->users != "[]") {
+                foreach ($lokasi->users as $log) {
+                    // Mail::queue('email', compact('lokasi', 'mesin'), function ($m) use ($log) {
+                    // $m->to($log->email, $log->name)->subject('Anda telah didaftarkan di Larapus!');
+                    // });
+                        
+                    Mail::to($log->email)->send(new PengaduanEmail($data));
+                    
+                }
             }
-            catch (Exception $e){
-                return response (['status' => false,'errors' => $e->getMessage()]);
-            }
+               
+            return redirect()->route('pengaduan.index');
+            // try{
+            //     Mail::send('email', ['lokasi' => $lokasi, 'mesin' => $mesin, 'keterangan' => $request->keterangan], function ($message) use ($request)
+            //     {
+            //         $message->subject('Pengaduan Kerusakan Mesin');
+            //         $message->from('laraplaint@gmail.com', 'Admin Laraplaint');
+            //         $message->to('esarizki15@gmail.com');
+            //     });
+            //     return back()->with('alert-success','Berhasil Kirim Email');
+            // }
+            // catch (Exception $e){
+            //     return response (['status' => false,'errors' => $e->getMessage()]);
+            // }
 
             // alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
             // return redirect()->route('pengaduan.index');

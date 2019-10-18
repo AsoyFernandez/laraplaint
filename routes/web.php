@@ -18,6 +18,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/email', function () {
+    return view('email');
+});
 Route::group(['middleware'=>['auth']], function () {
 Route::resource('user', 'UserController');
 Route::get('/ajax/lokasi/search', 'LokasiController@ajaxSearch')->name('lokasi.search');
