@@ -57,6 +57,9 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        if (isset($request->optradio) && $request->optradio == 0) {
+                $user->lokasis()->sync(Lokasi::all());
+        }
         if (isset($request->lokasi_id)) {
             for ($i=0; $i < count($request->lokasi_id); $i++) { 
                 $user->lokasis()->attach(Lokasi::find($request->lokasi_id[$i]));
@@ -79,7 +82,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -136,6 +140,7 @@ class UserController extends Controller
             'nik'=>'required|max:12',
             'role_id' => 'required|exists:roles,id',
             'email' => 'required',
+            'optradio'=>'required',
             
         ]);
         $user = User::findOrFail($id);
@@ -147,8 +152,13 @@ class UserController extends Controller
         }
         // dd($request->all());
 
-        $user->lokasis()->sync($request->lokasi_id);
+        if (isset($request->optradio) && $request->optradio == 0) {
+                $user->lokasis()->sync(Lokasi::all());
+        }
+        if (isset($request->optradio) && $request->optradio == 1) {
         
+        $user->lokasis()->sync($request->lokasi_id);
+        }
 
         alert()->success("Berhasil mengubah data $user->name", 'Sukses!')->autoclose(2500);
 
@@ -176,6 +186,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function destroyLokasi($id)
+    {
+
+    }
+    
     public function destroy($id)
     {
         $user = User::find($id);

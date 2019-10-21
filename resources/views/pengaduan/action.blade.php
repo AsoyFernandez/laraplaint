@@ -13,7 +13,7 @@
        	@elseif($log->status != 0 && Auth::user()->role->id != 2)
        	<a class="btn btn-primary btn-xs disabled" href="#"><span class="glyphicon glyphicon-random" aria-hidden="true" data-toggle="tooltip" title="Tangani"></span></a>
        @endif
-       <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penangananp"></span></a>
+       <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
     <button type="submit" class="btn btn-warning btn-link btn-xs" onclick="return confirm('Apakah anda serius?')"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Hapus"></span> </button>
 </form>
 @if ($log->status == 0)

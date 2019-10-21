@@ -78,14 +78,18 @@
 
                         <div class="form-group row">
                             <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Lokasi') }}</label>
-
                             <div class="col-md-6">
+                                <div class="radio">
+                                        <label><input type="radio" value="0" id="semua" onclick="show2()" name="optradio">Semua</label>
+                                        <label><input name="optradio" value="1" type="radio" id="sebagian" onclick="show1()">Sebagian</label>
+                                </div>
+                                <div id="lokasi_id" >    
                                 <select class="js-example-basic-single form-control" name="lokasi_id[]" multiple="multiple">
                                   @foreach($lokasi as $key)
                                     <option value="{{ $key->id }}">{{ $key->nama }}</option>
                                   @endforeach
                                 </select>
-
+                                </div>
                                 @error('lokasi')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -139,4 +143,19 @@
 @section('js')
     
     <script> console.log('Hi!'); </script>
+    <script>
+        $(document).ready(function() {
+            $("#lokasi_id").hide();
+        });
+
+        function show1(){
+           $("#lokasi_id").show();
+        }
+
+        function show2(){
+           $("#lokasi_id").hide();
+        }
+
+ 
+    </script>
 @stop
