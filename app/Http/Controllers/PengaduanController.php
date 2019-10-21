@@ -71,7 +71,7 @@ class PengaduanController extends Controller
             'user_id'=>'required|exists:users,id',
             'lokasi_id'=>'required|exists:lokasis,id',
             'mesin_id'=>'required|exists:mesins,id',
-            'foto'=> 'required|max:5120',
+            'foto'=> 'required|max:1024',
         ]);
         
         $count = count(Pengaduan::all()) + 1;
@@ -136,8 +136,10 @@ class PengaduanController extends Controller
                     // Mail::queue('email', compact('lokasi', 'mesin'), function ($m) use ($log) {
                     // $m->to($log->email, $log->name)->subject('Anda telah didaftarkan di Larapus!');
                     // });
+                    if ($log->id != $request->user_id) {
                         
                     $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
+                    }
                     
                 }
             }
