@@ -48,12 +48,16 @@ class UserSeeder extends Seeder
         $kategori3->save();
 
         $role1 = new Role();
-        $role1->nama = 'Member';
+        $role1->nama = 'Outlet Leader';
         $role1->save();
 
         $role2 = new Role();
         $role2->nama = 'Teknisi';
         $role2->save();
+
+        $role3 = new Role();
+        $role3->nama = 'Supervisor Area';
+        $role3->save();
 
         $mesin = new Mesin();
         $mesin->nama = 'Dirty Drivin';
@@ -94,6 +98,14 @@ class UserSeeder extends Seeder
         $user2->role_id = $role2->id;
         $user2->password = bcrypt('02091997');
         $user2->save();
+
+        $user3 = new User();
+        $user3->name = 'Gray';
+        $user3->email = 'gray@gmail.com';
+        $user3->nik = '999999888877';
+        $user3->role_id = $role3->id;
+        $user3->password = bcrypt('02091997');
+        $user3->save();
 
 
 

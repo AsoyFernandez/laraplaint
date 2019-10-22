@@ -82,8 +82,20 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $lokasi = Lokasi::all();
         $user = User::find($id);
-        return view('user.show', compact('user'));
+        $lokasiUser = [];
+        foreach($user->lokasis as $userCity)
+        {
+            $lokasiUser[] = $userCity->id;
+        }
+        return view('user.show', compact('user', 'lokasi', 'lokasiUser'));
+    }
+
+    public function ajax()
+    {
+        return Lokasi::all()->toJson();
+
     }
 
     /**
@@ -177,7 +189,7 @@ class UserController extends Controller
 
         alert()->success("Berhasil mengubah data diri", 'Sukses!')->autoclose(2500);
 
-        return redirect()->route('home');
+        return redirect()->route('user.index');
     }
 
     /**
@@ -186,9 +198,38 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroyLokasi($id)
-    {
 
+    public function storeLokasi(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $this->validate($request,[
+            'user_id'=>'required',
+            'optradio'=>'required',
+        ]);
+
+        if (isset($request->optradio) && $request->optradio == 0) {
+                $user->lokasis()->sync(Lokasi::all());
+        }
+        if (isset($request->lokasi_id)) {
+            for ($i=0; $i < count($request->lokasi_id); $i++) { 
+                $user->lokasis()->attach(Lokasi::find($request->lokasi_id[$i]));
+            }
+        }
+
+        alert()->success("Berhasil menyimpan data lokasi", 'Sukses!')->autoclose(2500);
+        // Session::flash("flash_notification", [
+        //     "level"=>"success",
+        //     "message"=>"Berhasil menyimpan $user->name"
+        // ]);
+        return redirect()->route('user.show', $user);
+    }
+
+    public function deleteLokasi($user, $id)
+    {
+        $user = User::find($user);
+        $lokasi = Lokasi::find($id);
+        $user->lokasis()->detach($lokasi);
+        return redirect()->route('user.show', $user);
     }
     
     public function destroy($id)

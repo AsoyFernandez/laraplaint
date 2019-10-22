@@ -18,10 +18,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/ajax', 'UserController@ajax')->name('ajax');
+
 Route::get('/email', function () {
     return view('email');
 });
 Route::group(['middleware'=>['auth']], function () {
+Route::post('/user/{user}/storeLokasi', 'UserController@storeLokasi')->name('user.storeLokasi');
+Route::delete('/user/{user}/deleteLokasi/{lokasi}', 'UserController@deleteLokasi')->name('user.deleteLokasi');
 Route::resource('user', 'UserController');
 Route::get('/ajax/lokasi/search', 'LokasiController@ajaxSearch')->name('lokasi.search');
 Route::resource('lokasi', 'LokasiController');

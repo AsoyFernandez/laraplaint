@@ -26,7 +26,8 @@
                         </div>
                     </div>
                     <div class="box-body">
-                  <p><a class="btn btn-primary" href="{{ route('user.create') }}">Tambah</a></p>
+                  <p><a class="btn btn-primary" href="#" data-toggle="modal" data-target="{{ '#' . 'lokasi' }}">Tambah</a></p>
+                    @include('user.createLokasi')
                                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>
@@ -60,4 +61,5 @@
 @section('js')
     
     <script> console.log('Hi!'); </script>
+    
 @stop

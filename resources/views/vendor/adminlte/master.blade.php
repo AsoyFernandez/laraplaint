@@ -111,6 +111,43 @@
         $(".js-example-basic-multiple").select2('val',selectedValues);
         // $('.js-example-basic-multiple').val(selectedValuesTest).trigger("change");
 
+   //      $('#my').DataTable( {
+   //       processing: true,
+   //      serverSide: true,
+   //          type : "get",
+   //          datatype : "json",
+   //              ajax: {
+   //                  url: '{{ route('ajax') }}',
+   //                  dataSrc: ''
+   //              },
+   //              columns: [
+              
+   //                  { data: 'nama', name: 'nama' },
+   //                  {"defaultContent": 
+
+   //                  '<button type="button" class="delete_btn" data-id="<?php echo "id";?>">Delete</button>'}   
+   //              ],
+   //  } );
+
+   //      $(function(){
+   //     $(document).on('click','.delete_btn',function (e) {
+   //        e.stopPropagation();
+   //     var per_id=$(this).data('id');
+   //     var del_id= $(this).closest('tr');
+   //     var ele = $(this).parent().parent(); 
+   //     console.log(del_id);
+ 
+   //     $.ajax({
+   //         type:'POST',
+   //         url:'',
+   //         dataType: 'json', //This says I'm expecting a response that is json encoded.
+   //         data: { 'del_id' : del_id},
+ 
+   //         success: function(data){ //data is an json encoded array.
+   //         }
+   //     })
+   // })
+   // });
 } );
 </script>
 <script>
