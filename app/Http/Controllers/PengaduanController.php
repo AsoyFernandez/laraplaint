@@ -21,11 +21,17 @@ class PengaduanController extends Controller
      */
     public function index()
     {
+
+        $lokasiUser = [];
+        foreach (Auth::user()->lokasis as $key) {
+            $lokasiUser[] = $key->id;
+        }
+
         $pengaduan = Pengaduan::all();
         if (Auth::user()->role->id == 2) {
             $pengaduan = Pengaduan::where('user_id', Auth::id())->get();
         }
-        return view('pengaduan.index', compact('pengaduan'));
+        return view('pengaduan.index', compact('pengaduan', 'lokasiUser'));
     }
 
     /**
@@ -59,6 +65,7 @@ class PengaduanController extends Controller
         $lokasi = Lokasi::find($request->lokasi_id);
         $mesin = Mesin::find($request->mesin_id);
         $user = User::find($request->user_id);
+        
         $data = [
             'lokasi' => $lokasi->nama,
             'mesin' => $mesin->nama,
@@ -132,7 +139,7 @@ class PengaduanController extends Controller
                
         // kirim email
             if ($lokasi->users != "[]") {
-                foreach ($lokasi->users as $log) {
+                foreach ($lokasi->users->where('role_id', 4) as $log) {
                     // Mail::queue('email', compact('lokasi', 'mesin'), function ($m) use ($log) {
                     // $m->to($log->email, $log->name)->subject('Anda telah didaftarkan di Larapus!');
                     // });

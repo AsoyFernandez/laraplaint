@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Penanganan;
+use App\Konfirmasi;
 use Illuminate\Http\Request;
-use App\Pengaduan;
-class PenangananController extends Controller
+
+class KonfirmasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,27 +35,16 @@ class PenangananController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'user_id'=>'required|exists:users,id',
-            'pengaduan_id'=>'required|exists:pengaduans,id',
-        ]);
-
-        $pengaduan = Pengaduan::find($request->pengaduan_id);
-        $pengaduan->update([
-            'status' => 2,
-        ]);
-
-        $penanganan = Penanganan::create($request->all());
-        return redirect()->route('pengaduan.index');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Penanganan  $penanganan
+     * @param  \App\Konfirmasi  $konfirmasi
      * @return \Illuminate\Http\Response
      */
-    public function show(Penanganan $penanganan)
+    public function show(Konfirmasi $konfirmasi)
     {
         //
     }
@@ -63,10 +52,10 @@ class PenangananController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Penanganan  $penanganan
+     * @param  \App\Konfirmasi  $konfirmasi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Penanganan $penanganan)
+    public function edit(Konfirmasi $konfirmasi)
     {
         //
     }
@@ -75,10 +64,10 @@ class PenangananController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Penanganan  $penanganan
+     * @param  \App\Konfirmasi  $konfirmasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Penanganan $penanganan)
+    public function update(Request $request, Konfirmasi $konfirmasi)
     {
         //
     }
@@ -86,10 +75,10 @@ class PenangananController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Penanganan  $penanganan
+     * @param  \App\Konfirmasi  $konfirmasi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Penanganan $penanganan)
+    public function destroy(Konfirmasi $konfirmasi)
     {
         //
     }

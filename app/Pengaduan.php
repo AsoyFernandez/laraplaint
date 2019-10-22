@@ -23,4 +23,8 @@ class Pengaduan extends Model
     public function penanganan(){
         return $this->hasOne('App\Penanganan');
     }
+
+    public function konfirmasi(){
+        return $this->belongsTo('App\Konfirmasi');
+    }
 }

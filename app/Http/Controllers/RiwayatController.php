@@ -67,7 +67,7 @@ class RiwayatController extends Controller
             }
             if ($request->status == 1) {
                 $penanganan->pengaduan->update([
-                    'status'=>2,
+                    'status'=>3,
                 ]);
             }
             alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
