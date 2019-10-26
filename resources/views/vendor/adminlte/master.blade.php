@@ -20,6 +20,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}">
     <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/rowReorder.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/responsive.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/buttons.dataTables.min.css') }}" rel="stylesheet">
     
     @yield('adminlte_css')
@@ -32,74 +34,83 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition @yield('body_class')">
+<body class="hold-transition @yield('body_class')" style="table-layout: fixed;">
 
 @yield('body')
 
-<script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+{{-- <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script> --}}
+<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+
 <script src="{{ asset('vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
-<script src="{{ asset('js/datatables.js') }}" defer></script>
+<script src="{{ asset('js/dataTables.rowReorder.min.js') }}"></script>
+<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
+{{-- <script src="{{ asset('js/datatables.js') }}" defer></script>
 <script src="{{ asset('js/validator.min.js') }}" defer></script>
+ --}}<script>
 
-<script>
     $(document).ready(function() {
     // Setup - add a text input to each footer cell
-    $('#example tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="'+title+'" />' );
-    } );
+    // $('#example tfoot th').each( function () {
+    //     var title = $(this).text();
+    //     $(this).html( '<input type="text" placeholder="'+title+'" />' );
+    // } );
  
-    // DataTable
-    var table = $('#example').DataTable({
-        responsive:false,
-        dom: 'l Bfrtip',
-       buttons: [
-       {
-            extend: 'print',
-            exportOptions: {
-                columns: ':visible'
-            }
-        },
-        {
-            extend: 'pdf',
-            exportOptions: {
-                columns: ':visible'
-            }
-        },
-        {
-            extend: 'excel',
-            exportOptions: {
-                columns: ':visible'
-            }
-        },
-            'colvis'
-       ],
-        columnDefs: [ {
-            targets: [-1],
-            visible: true
-        } ],
+    // // DataTable
+    // var table = $('#example').DataTable({
+    //     responsive:true,
+    //     dom: 'l Bfrtip',
+    //    buttons: [
+    //    {
+    //         extend: 'print',
+    //         exportOptions: {
+    //             columns: ':visible'
+    //         }
+    //     },
+    //     {
+    //         extend: 'pdf',
+    //         exportOptions: {
+    //             columns: ':visible'
+    //         }
+    //     },
+    //     {
+    //         extend: 'excel',
+    //         exportOptions: {
+    //             columns: ':visible'
+    //         }
+    //     },
+    //         'colvis'
+    //    ],
+    //     columnDefs: [ {
+    //         targets: [-1],
+    //         visible: true
+    //     } ],
 
-    });
+    // });
     
-    // Apply the search
-    table.columns().every( function () {
-        var that = this;
+    // // Apply the search
+    // table.columns().every( function () {
+    //     var that = this;
  
-        $( 'input', this.footer() ).on( 'keyup change clear', function () {
-            if ( that.search() !== this.value ) {
-                that
-                    .search( this.value )
-                    .draw();
-            }
-        } );
-    } );
+    //     $( 'input', this.footer() ).on( 'keyup change clear', function () {
+    //         if ( that.search() !== this.value ) {
+    //             that
+    //                 .search( this.value )
+    //                 .draw();
+    //         }
+    //     } );
+    // } );
 
         $('.js-example-basic-single').select2({
         placeholder: 'Silahkan pilih data',
         allowClear: true,
         minimumInputLength: 2,
+    });
+
+        $('.js-example').select2({
+        placeholder: 'Silahkan pilih data',
+        allowClear: true,
     });
 
         $('.js-example-basic-multiple').select2({
@@ -109,6 +120,11 @@
     });
         var selectedValues = $("#lokasi").val().split(',');
         $(".js-example-basic-multiple").select2('val',selectedValues);
+        
+
+
+
+
         // $('.js-example-basic-multiple').val(selectedValuesTest).trigger("change");
 
    //      $('#my').DataTable( {

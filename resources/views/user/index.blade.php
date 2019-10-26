@@ -20,14 +20,14 @@
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i></button>
-                            {{-- <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"> --}}
+                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
                                 <i class="fa fa-times"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
                   <p><a class="btn btn-primary" href="{{ route('user.create') }}">Tambah</a></p>
-                                       <div class="table-responsive">
-                        <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
+                       <div class="table-responsive">
+                        <table id="my" class="display dt-responsive nowrap">
                             <thead>
                                 <tr>
                                     <th>NIK</th>
@@ -76,4 +76,14 @@
 @section('js')
     
     <script> console.log('Hi!'); </script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#my').DataTable( {
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        responsive: true
+    } );
+   });
+    </script>
 @stop

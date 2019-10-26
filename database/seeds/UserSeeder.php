@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         $lokasi2->save();  
         
         $role = new role();
-        $role->nama = 'Admin';
+        $role->nama = 'Super User';
         $role->save();
 
         $kategori = new Kategori();

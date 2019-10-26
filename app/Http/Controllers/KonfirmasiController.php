@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Konfirmasi;
+use App\Pengaduan;
 use Illuminate\Http\Request;
 
 class KonfirmasiController extends Controller
@@ -35,7 +36,26 @@ class KonfirmasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pengaduan = Pengaduan::find($request->pengaduan_id);
+        $this->validate($request,[
+            'user_id'=>'required|exists:users,id',
+            'pengaduan_id'=>'required|exists:pengaduans,id',
+            'status'=>'required',
+        ]);
+
+        $konfirmasi = Konfirmasi::create($request->except('status'));
+        if ($request->status == 0) {
+            $pengaduan->update([
+                'status'=> '-1',
+            ]);
+        }elseif ($request->status == 1) {
+            $pengaduan->update([
+                'status'=> 1,
+            ]);
+        }
+        return redirect()->route('pengaduan.index');
+        // dd($pengaduan->status == 0);
+        
     }
 
     /**

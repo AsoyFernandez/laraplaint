@@ -64,8 +64,7 @@ class PengaduanController extends Controller
     {
         $lokasi = Lokasi::find($request->lokasi_id);
         $mesin = Mesin::find($request->mesin_id);
-        $user = User::find($request->user_id);
-        
+        $user = User::find($request->user_id);     
         $data = [
             'lokasi' => $lokasi->nama,
             'mesin' => $mesin->nama,
@@ -113,6 +112,9 @@ class PengaduanController extends Controller
         $no_pengaduan = "LP-$count/SKJ/$bulan/$tahun";
         // dd($request->all());
         $pengaduan = Pengaduan::create($request->except('foto'));
+        if ($user->role_id != 2) {
+            $pengaduan->status = 1;
+        }
         $pengaduan->no_pengaduan = $no_pengaduan;
         // isi field cover jika ada cover yang diupload
             if ($request->hasFile('foto')) {
@@ -140,12 +142,10 @@ class PengaduanController extends Controller
         // kirim email
             if ($lokasi->users != "[]") {
                 foreach ($lokasi->users->where('role_id', 4) as $log) {
-                    // Mail::queue('email', compact('lokasi', 'mesin'), function ($m) use ($log) {
-                    // $m->to($log->email, $log->name)->subject('Anda telah didaftarkan di Larapus!');
-                    // });
+                    
                     if ($log->id != $request->user_id) {
                         
-                    $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
+                    // $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
                     }
                     
                 }

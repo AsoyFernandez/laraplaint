@@ -1,11 +1,15 @@
-Admin
+Super User
 @foreach ($pengaduan as $log)
                                     <tr>   
                                         <td><a href="#myModal" id="openBtn" data-toggle="modal" data-target="{{ '#' . $log->id . 'gambar' }}">{{ $log->no_pengaduan }}</a>
                                             @include('pengaduan.gambar', ['object' => $log])</td>
+                                            
+                                        <td>{{ $log->user->name }}</td>
                                         <td>{{ $log->mesin->nama }}</td>
                                         <td>{{ $log->lokasi->nama }}</td>
-                                        @if($log->status == 0)
+                                        @if($log->status == -1)
+                                        <td>Ditolak AS</td>
+                                        @elseif($log->status == 0)
                                         <td>Menunggu Konfirmasi AS</td>
                                         @elseif ($log->status == 1)
                                             <td>Belum ditangani</td>

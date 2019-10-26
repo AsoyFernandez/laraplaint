@@ -9,6 +9,10 @@ class Konfirmasi extends Model
     protected $guarded = [];
 
     public function pengaduan(){
-    	return $this->hasOne('App\Pengaduan');
+    	return $this->belongsTo('App\Pengaduan');
     }
+
+	public function user(){
+    	return $this->belongsTo('App\User');
+    }    
 }

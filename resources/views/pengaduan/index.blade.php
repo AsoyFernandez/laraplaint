@@ -31,6 +31,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>Pelapor</th>
                                     <th>Mesin</th>
                                     <th>Lokasi</th>
                                     <th>Status</th>
@@ -64,6 +65,7 @@
                             <tfoot>
                                 <tr>
                                     <th>No</th>
+                                    <th>Pelapor</th>
                                     <th>Mesin</th>
                                     <th>Lokasi</th>
                                     <th>Status</th>

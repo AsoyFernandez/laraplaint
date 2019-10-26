@@ -26,9 +26,12 @@ Route::get('/email', function () {
 Route::group(['middleware'=>['auth']], function () {
 Route::post('/user/{user}/storeLokasi', 'UserController@storeLokasi')->name('user.storeLokasi');
 Route::delete('/user/{user}/deleteLokasi/{lokasi}', 'UserController@deleteLokasi')->name('user.deleteLokasi');
+
 Route::resource('user', 'UserController');
 Route::get('/ajax/lokasi/search', 'LokasiController@ajaxSearch')->name('lokasi.search');
 Route::resource('lokasi', 'LokasiController');
+Route::resource('konfirmasi', 'KonfirmasiController');
+
 Route::resource('kategori', 'KategoriController');
 Route::get('/ajax/mesin/search', 'MesinController@ajaxSearch')->name('mesin.search');
 Route::resource('mesin', 'MesinController');

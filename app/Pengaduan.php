@@ -25,6 +25,6 @@ class Pengaduan extends Model
     }
 
     public function konfirmasi(){
-        return $this->belongsTo('App\Konfirmasi');
+        return $this->hasOne('App\Konfirmasi');
     }
 }
