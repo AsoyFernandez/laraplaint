@@ -100,7 +100,7 @@
 
                     {{-- Menu Manual --}}
                     <li class="header">Main Navigation</li>
-                    @if (Auth::user()->role->id == 1)
+                    @if (Auth::user()->role->id == 1 or Auth::user()->role->id == 4)
                         {{-- expr --}}
                     <li><a href="{{ route('user.index') }}"><i class='fa fa-users'></i><span>{{ trans('Pengguna') }}</span></a></li>
                      <li class="treeview">

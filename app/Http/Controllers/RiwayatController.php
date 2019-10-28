@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Riwayat;
 use Illuminate\Http\Request;
 use App\Penanganan;
+use App\Pengaduan;
+use File;
 class RiwayatController extends Controller
 {
     /**
@@ -22,9 +24,10 @@ class RiwayatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $log = Pengaduan::find($id);
+        return view('riwayat.create', compact('log'));
     }
 
     /**
@@ -35,7 +38,6 @@ class RiwayatController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $penanganan = Penanganan::find($request->penanganan_id);
         $this->validate($request,[
             'penanganan_id'=>'required|exists:penanganans,id',
@@ -92,9 +94,9 @@ class RiwayatController extends Controller
      * @param  \App\Riwayat  $riwayat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Riwayat $riwayat)
+    public function edit(Pengaduan $pengaduan, Riwayat $riwayat)
     {
-        //
+        return view('riwayat.edit', compact('pengaduan', 'riwayat'));
     }
 
     /**
@@ -104,9 +106,13 @@ class RiwayatController extends Controller
      * @param  \App\Riwayat  $riwayat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Riwayat $riwayat)
+    public function update(Request $request, Pengaduan $pengaduan, Riwayat $riwayat)
     {
-        //
+        dd($riwayat);
+        $riwayat->update($request->all());
+        alert()->success("Berhasil mengubah data pengaduan", 'Sukses!')->autoclose(2500);
+
+        return redirect()->route('pengaduan.index');
     }
 
     /**
@@ -116,7 +122,27 @@ class RiwayatController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Riwayat $riwayat)
-    {
-        //
+    {   
+        $pengaduan = Pengaduan::find($riwayat->penanganan->pengaduan_id);
+        
+        if ($riwayat->status == 1) {
+            $riwayat->penanganan->pengaduan->update([
+                'status'=> 2,
+            ]);
+        }
+        if ($riwayat->foto) {
+        $old_foto = $riwayat->foto;
+        $filepath = public_path() . DIRECTORY_SEPARATOR . 'img'
+        . DIRECTORY_SEPARATOR . $riwayat->foto;
+        try {
+        File::delete($filepath);
+        } catch (FileNotFoundException $e) {
+        // File sudah dihapus/tidak ada
+        }
+        }
+        $riwayat->delete();
+        alert()->success("Berhasil menghapus data riwayat", 'Sukses!')->autoclose(2500);
+        return redirect()->route('pengaduan.show', $pengaduan);
+
     }
 }

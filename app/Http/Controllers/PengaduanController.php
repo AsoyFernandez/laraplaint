@@ -201,7 +201,32 @@ class PengaduanController extends Controller
      */
     public function update(Request $request, Pengaduan $pengaduan)
     {
-        $pengaduan->update($request->all());
+        $pengaduan->update($request->except('foto'));
+        if ($request->hasFile('foto')) {
+        // menambil foto yang diupload berikut ekstensinya
+        $filename = null;
+        $uploaded_foto = $request->file('foto');
+        $extension = $uploaded_foto->getClientOriginalExtension();
+        // membuat nama file random dengan extension
+        $filename = md5(time()) . '.' . $extension;
+        $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+        // memindahkan file ke folder public/img
+        $uploaded_foto->move($destinationPath, $filename);
+        // hapus foto lama, jika ada
+        if ($pengaduan->foto) {
+        $old_foto = $pengaduan->foto;
+        $filepath = public_path() . DIRECTORY_SEPARATOR . 'img'
+        . DIRECTORY_SEPARATOR . $pengaduan->foto;
+        try {
+        File::delete($filepath);
+            } catch (FileNotFoundException $e) {
+            // File sudah dihapus/tidak ada
+            }
+        }
+        $pengaduan->foto = $filename;
+        $pengaduan->save();
+        }
+
         alert()->success("Berhasil mengubah data pengaduan", 'Sukses!')->autoclose(2500);
 
         return redirect()->route('pengaduan.index');

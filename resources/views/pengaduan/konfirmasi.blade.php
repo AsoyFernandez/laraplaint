@@ -10,15 +10,13 @@
                         @csrf
                         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
                         <input type="hidden" name="pengaduan_id" value="{{ $log->id }}">
+
                         <div class="form-group row">
                             <label for="status" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Status') }}</label>
 
-                            <div class="col-md-6">
-                                <select class="js-example form-control" style="width: 100%" name="status">
-                                  <option value="" disabled selected></option>
-                                  <option value="0">Tolak</option>
-                                  <option value="1">Publikasi</option>
-                                </select>
+                            <div class="col-md-6 radio required">
+                              <label><input type="radio" value="0" name="status">Tolak</label>
+                              <label><input type="radio" value="1" name="status">Publikasi</label>
 
                                 @error('status')
                                     <span class="invalid-feedback" role="alert">
@@ -41,14 +39,14 @@
                                 @enderror
                             </div>
                         </div>
-
-                    </form>
             
       </div>
       <div class="modal-footer">
-        <button type="submit" id="submitBtn" class="btn btn-primary">
+
+        <button type="submit" id="submitBtn"  class="btn btn-primary">
                                     {{ __('Simpan') }}
                                 </button>
+                    </form>
         <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
       </div>
     </div>

@@ -38,7 +38,13 @@ Route::resource('mesin', 'MesinController');
 Route::get('pengaduan/create/{lokasi}/{mesin}','PengaduanController@autoCreate')->name('pengaduan.createQR');
 Route::resource('pengaduan', 'PengaduanController');
 Route::resource('penanganan', 'PenangananController');
-Route::resource('riwayat', 'RiwayatController');
+Route::get('riwayat/{pengaduan}', 'RiwayatController@create')->name('riwayat.create');
+Route::get('pengaduan/{pengaduan}/riwayat/{riwayat}', 'RiwayatController@edit')->name('riwayat.edit');
+
+Route::put('pengaduan/{pengaduan}/riwayat/{riwayat}', 'RiwayatController@update')->name('riwayat.update');
+
+Route::post('riwayat', 'RiwayatController@store')->name('riwayat.store');
+Route::delete('riwayat/{riwayat}', 'RiwayatController@destroy')->name('riwayat.destroy');
 
 
 Route::get('/lokasiMesin/{id}', 'LokasiMesinController@index')->name('lokasiMesin.index');

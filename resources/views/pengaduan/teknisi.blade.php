@@ -22,7 +22,7 @@ Teknisi
                                         <td>{{ $log->keterangan }}</td>
                                         <td>{{ $log->created_at }}</td>
                                         <td>
-                                        @include('pengaduan.action') 
+                                        @include('pengaduan.actionTeknisi') 
                                         </td>
                                     </tr>
                                 @endforeach

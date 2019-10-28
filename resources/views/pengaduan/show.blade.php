@@ -51,6 +51,14 @@
                                         @endif
                                         <td>{{ $log->keterangan }}</td>
                                         <td>{{ $log->created_at }}</td>
+                                        <td><form method="POST" action="{{ route('riwayat.destroy', $log->id) }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                       <a class="btn btn-primary btn-xs" href="{{ route('riwayat.edit', [$pengaduan, $log->id]) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true" data-toggle="tooltip" title="Edit"></span></a>
+                                       <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+                                    <button type="submit" class="btn btn-warning btn-link btn-xs" onclick="return confirm('Apakah anda serius?')"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Hapus"></span> </button>
+                                </form>
+</td>
                                     </tr>
                                 @endforeach
                                 @endif

@@ -24,7 +24,7 @@ class PenangananController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**

@@ -28,7 +28,11 @@ Supervisor
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
        <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.edit', $log->id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true" data-toggle="tooltip" title="Edit"></span></a>
-       <a class="btn btn-primary btn-xs" href="#"><span class="fa fa-question" aria-hidden="true" title="Konfirmasi" data-toggle="modal" data-target="{{ '#' . $log->id . 'konfirmasi' }}"></span></a>
+       @if ($log->status != 0)
+       <a class="btn btn-primary btn-xs" disabled href="#"><span class="fa fa-question" aria-hidden="true" title="Konfirmasi"></span></a>
+       @else
+        <a class="btn btn-primary btn-xs" href="#"><span class="fa fa-question" aria-hidden="true" title="Konfirmasi" data-toggle="modal" data-target="{{ '#' . $log->id . 'konfirmasi' }}"></span></a>
+       @endif
        <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
     <button type="submit" class="btn btn-warning btn-link btn-xs" onclick="return confirm('Apakah anda serius?')"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Hapus"></span> </button>
 </form> 

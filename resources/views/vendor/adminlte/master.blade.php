@@ -33,74 +33,76 @@
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
 </head>
+
 <body class="hold-transition @yield('body_class')" style="table-layout: fixed;">
 
 @yield('body')
 
-{{-- <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script> --}}
-<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+<script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
+{{-- <script src="{{ asset('js/jquery-3.3.1.js') }}"></script> --}}
 
 <script src="{{ asset('vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
 <script src="{{ asset('js/dataTables.rowReorder.min.js') }}"></script>
 <script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-{{-- <script src="{{ asset('js/datatables.js') }}" defer></script>
+<script src="{{ asset('js/datatables.js') }}" defer></script>
 <script src="{{ asset('js/validator.min.js') }}" defer></script>
- --}}<script>
+<script>
 
     $(document).ready(function() {
     // Setup - add a text input to each footer cell
-    // $('#example tfoot th').each( function () {
-    //     var title = $(this).text();
-    //     $(this).html( '<input type="text" placeholder="'+title+'" />' );
-    // } );
+    $('#example tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="'+title+'" />' );
+    } );
  
-    // // DataTable
-    // var table = $('#example').DataTable({
-    //     responsive:true,
-    //     dom: 'l Bfrtip',
-    //    buttons: [
-    //    {
-    //         extend: 'print',
-    //         exportOptions: {
-    //             columns: ':visible'
-    //         }
-    //     },
-    //     {
-    //         extend: 'pdf',
-    //         exportOptions: {
-    //             columns: ':visible'
-    //         }
-    //     },
-    //     {
-    //         extend: 'excel',
-    //         exportOptions: {
-    //             columns: ':visible'
-    //         }
-    //     },
-    //         'colvis'
-    //    ],
-    //     columnDefs: [ {
-    //         targets: [-1],
-    //         visible: true
-    //     } ],
+    // DataTable
+    var table = $('#example').DataTable({
+        responsive:true,
+        dom: 'l Bfrtip',
+       buttons: [
+       {
+            extend: 'print',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'pdf',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+            'colvis'
+       ],
+        columnDefs: [ {
+            targets: [-1],
+            visible: true
+        } ],
 
-    // });
+    });
     
-    // // Apply the search
-    // table.columns().every( function () {
-    //     var that = this;
+    // Apply the search
+    table.columns().every( function () {
+        var that = this;
  
-    //     $( 'input', this.footer() ).on( 'keyup change clear', function () {
-    //         if ( that.search() !== this.value ) {
-    //             that
-    //                 .search( this.value )
-    //                 .draw();
-    //         }
-    //     } );
-    // } );
+        $( 'input', this.footer() ).on( 'keyup change clear', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+        } );
+    } );
 
         $('.js-example-basic-single').select2({
         placeholder: 'Silahkan pilih data',
@@ -118,52 +120,10 @@
         allowClear: true,
         multiple: true,
     });
-        var selectedValues = $("#lokasi").val().split(',');
-        $(".js-example-basic-multiple").select2('val',selectedValues);
+        // var selectedValues = $("#lokasi").val().split(',');
+        // $(".js-example-basic-multiple").select2('val',selectedValues);
         
 
-
-
-
-        // $('.js-example-basic-multiple').val(selectedValuesTest).trigger("change");
-
-   //      $('#my').DataTable( {
-   //       processing: true,
-   //      serverSide: true,
-   //          type : "get",
-   //          datatype : "json",
-   //              ajax: {
-   //                  url: '{{ route('ajax') }}',
-   //                  dataSrc: ''
-   //              },
-   //              columns: [
-              
-   //                  { data: 'nama', name: 'nama' },
-   //                  {"defaultContent": 
-
-   //                  '<button type="button" class="delete_btn" data-id="<?php echo "id";?>">Delete</button>'}   
-   //              ],
-   //  } );
-
-   //      $(function(){
-   //     $(document).on('click','.delete_btn',function (e) {
-   //        e.stopPropagation();
-   //     var per_id=$(this).data('id');
-   //     var del_id= $(this).closest('tr');
-   //     var ele = $(this).parent().parent(); 
-   //     console.log(del_id);
- 
-   //     $.ajax({
-   //         type:'POST',
-   //         url:'',
-   //         dataType: 'json', //This says I'm expecting a response that is json encoded.
-   //         data: { 'del_id' : del_id},
- 
-   //         success: function(data){ //data is an json encoded array.
-   //         }
-   //     })
-   // })
-   // });
 } );
 </script>
 <script>

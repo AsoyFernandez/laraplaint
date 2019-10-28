@@ -10,12 +10,12 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('pengaduan.index') }}">Pengaduan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Ubah Pengaduan</li>
+                <li class="breadcrumb-item active" aria-current="page">Edit Bukti Penanganan</li>
               </ol>
             </nav>
             <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h2 class="box-title">Ubah Pengaduan</h2>
+                        <h2 class="box-title">Edit Bukti Penanganan</h2>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -26,22 +26,19 @@
 
                     </div>
                 <div class="box-body">
-                  <form method="POST" enctype="multipart/form-data" action="{{ route('pengaduan.update', $pengaduan) }}">
+                  <form method="POST" action="{{ route('riwayat.update', [$pengaduan, $riwayat]) }}" enctype="multipart/form-data">
                         @csrf
+                      {{ method_field('PUT') }}
+
                         
-                        {{ method_field('PUT') }}
-
                         <div class="form-group row">
-                            <label for="lokasi" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('lokasi') }}</label>
+                            <label for="status" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Status') }}</label>
 
-                            <div class="col-md-6">
-                                <select class="js-example-basic-single form-control" name="lokasi_id">
-                                    <option value="" disabled selected></option>
-                                  @foreach($lokasi as $key)
-                                    <option value="{{ $key->id }}" {{ old('lokasi_id', $pengaduan->lokasi_id) == $key->id ? 'selected' : '' }}>{{ $key->nama }}</option>
-                                  @endforeach
-                                </select>
-                                @error('lokasi')
+                            <div class="col-md-6 radio">
+                                <label><input type="radio" required="" value="0" name="status" {{ old('status', $riwayat->status) == "0" ? 'checked' : '' }}>Tunggu</label>
+                              <label><input type="radio" value="1" required="" name="status" {{ old('status', $riwayat->status) == "1" ? 'checked' : '' }}>Selesai</label>
+
+                                @error('status')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -49,47 +46,32 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="mesin" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Mesin') }}</label>
-
-                            <div class="col-md-6">
-                                <select class="js-example-basic-single form-control" name="mesin_id">
-                                    <option value="" disabled selected></option>
-                                  @foreach($mesin as $key)
-                                    <option value="{{ $key->id }}" {{ old('mesin_id', $pengaduan->mesin_id) == $key->id ? 'selected' : '' }}>{{ $key->nama }}</option>
-                                  @endforeach
-                                </select>
-                                @error('mesin')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="form-group row">
                             <label for="foto" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Foto') }}</label>
-
+ 
                             <div class="col-md-6">
                                 <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" autocomplete="foto" autofocus onchange="openFile(event)">
                                 <center>
+                                @if (isset($pengaduan) && $pengaduan->foto)
                                 <img id="output" class="img-rounded img-responsive " style="width: 20rem; height: 20rem" src="{!!asset('img/'.$pengaduan->foto)!!}">
-                              
-                              </center>
+                              @else
+                                 Foto belum di upload
+                              @endif
+                            </center>
                                 @error('foto')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
-
                             </div>
-                            
                         </div>
-
+                        
                         <div class="form-group row">
-                            <label for="Keterangan" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('keterangan') }}</label>
+                            <label for="Keterangan" class="col-md-offset-2 col-md-2 control-label col-form-label text-md-right">{{ __('Keterangan') }}</label>
 
                             <div class="col-md-6">
-                                <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror" value="{{ old('keterangan', $pengaduan->keterangan) }}" autocomplete="keterangan" autofocus>{{ $pengaduan->keterangan }}</textarea>
+                                <textarea name="keterangan" id="keterangan" cols="30" rows="3" class="form-control @error('keterangan') is-invalid @enderror" value="{{ old('keterangan') }}" autocomplete="keterangan" autofocus>{{ $riwayat->keterangan }}</textarea>
+                                
                                 @error('keterangan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -97,8 +79,7 @@
                                 @enderror
                             </div>
                         </div>
-
-
+                        
                         <div class="form-group row mb-0">
                             <div class="col-md-6 col-md-offset-4 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -107,7 +88,8 @@
                             </div>
                         </div>
                     </form>
-
+              </div>
+            </div>
         </div>
     </div>
 </div>
@@ -116,23 +98,8 @@
 @section('js')
     
     <script> console.log('Hi!'); </script>
-    {{-- <script>
-    var openFile = function(event) {
-    var input = event.target;
-
-    var reader = new FileReader();
-    reader.onload = function(){
-      var dataURL = reader.result;
-      var output = document.getElementById('output');
-      output.src = dataURL;
-    };
-    reader.readAsDataURL(input.files[0]);
-  };
-</script> --}}
-<script>
-        $(document).ready(function() {
-        });
-
+    <script>
+        
         var openFile = function(event) {
         var input = event.target;
 
@@ -141,11 +108,58 @@
           var dataURL = reader.result;
           var output = document.getElementById('output');
           output.src = dataURL;
-
           $("#output").show();
         };
         reader.readAsDataURL(input.files[0]);
       };
     </script>
-
+    <script>
+    $('.mesin').select2({
+        placeholder: 'Silahkan cari data',
+        minimumInputLength: 2,
+        ajax: {
+                url: '{{ url(route('mesin.search')) }}',
+                processResults: function(data){
+                return {
+                results: data.map(function(item){return {id: item.id, text:
+                item.nama} })
+                }
+            }
+        }
+    });
+    $('.lokasi').select2({
+        placeholder: 'Silahkan cari data',
+        minimumInputLength: 2,
+        ajax: {
+                url: '{{ url(route('lokasi.search')) }}',
+                processResults: function(data){
+                return {
+                results: data.map(function(item){return {id: item.id, text:
+                item.nama} })
+                }
+            }
+        }
+    });
+     // $('.cariMesin').select2({
+     //    placeholder: 'Cari...',
+     //    minimumInputLength: 3,
+     //    ajax: {
+     //      url: '{{ url(route('mesin.search')) }}',
+     //      dataType: 'json',
+     //      delay: 250,
+     //      processResults: function (data) {
+     //        return {
+     //          results:  $.map(data, function (item) {
+     //            return {
+     //              id: item.id,
+     //              text: item.nama,
+     //            }
+     //          })
+     //        };
+     //      },
+     //      cache: true
+     //    }
+     //  });
+</script>
+    </script>
 @stop
