@@ -26,7 +26,10 @@
                         </div>
                     </div>
                     <div class="box-body">
+                        @if (Auth::user()->role->id == 3)
+                            {{-- expr --}}
                   <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a></p>
+                        @endif
                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>

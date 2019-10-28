@@ -33,7 +33,11 @@ Supervisor
        @else
         <a class="btn btn-primary btn-xs" href="#"><span class="fa fa-question" aria-hidden="true" title="Konfirmasi" data-toggle="modal" data-target="{{ '#' . $log->id . 'konfirmasi' }}"></span></a>
        @endif
+       @if ($log->status < 1)
+       <a class="btn btn-primary btn-xs" disabled href="#"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+       @else
        <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+       @endif
     <button type="submit" class="btn btn-warning btn-link btn-xs" onclick="return confirm('Apakah anda serius?')"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Hapus"></span> </button>
 </form> 
 @include('pengaduan.konfirmasi', ['object' => $log])

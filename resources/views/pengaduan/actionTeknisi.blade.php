@@ -1,6 +1,5 @@
 @if (Auth::user()->role->id == 3)
-         @if ($log->status == 2)
-         	{{-- expr --}}
+         @if ($log->status == 2 && $log->penanganan->user_id == Auth::id())
          <a class="btn btn-primary btn-xs" href="{{ route('riwayat.create', $log->id) }}"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" data-toggle="tooltip" title="Upload Bukti"></span></a>
          @elseif($log->status != 2)
          <a class="btn btn-primary btn-xs disabled" href="#" data-toggle="modal" data-target="{{ '#' . $log->id . 'bukti' }}"><span class="glyphicon glyphicon-cloud-upload" aria-hidden="true" data-toggle="tooltip" title="Upload Bukti"></span></a>
