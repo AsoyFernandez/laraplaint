@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
+                <li class="breadcrumb-it
                 <li class="breadcrumb-item"><a href="{{ route('pengaduan.index') }}">Pengaduan</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Riwayat Penanganan</li>
               </ol>
@@ -28,13 +28,13 @@
                     <div class="box-body">
                         @if (Auth::user()->role->id == 3)
                             {{-- expr --}}
-                  <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a></p>
+                  <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a> <a class="btn btn-primary" href="#">Cetak</a></p>
+
                         @endif
                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>No</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Waktu</th>
@@ -46,7 +46,6 @@
                                 @if (!is_null($pengaduan->penanganan->riwayats))
                                 @foreach ($pengaduan->penanganan->riwayats as $log)
                                     <tr>   
-                                        <td>{{ $pengaduan->no_pengaduan }}</td>
                                         @if ($log->status == 0)
                                         <td>Menunggu</td>
                                         @else
@@ -58,10 +57,11 @@
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                        <a class="btn btn-primary btn-xs" href="{{ route('riwayat.edit', [$pengaduan, $log->id]) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true" data-toggle="tooltip" title="Edit"></span></a>
-                                       <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+                                       <a class="btn btn-primary btn-xs" href="#" data-toggle="modal" data-target="{{ '#' . $log->id . 'gambar' }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
                                     <button type="submit" class="btn btn-warning btn-link btn-xs" onclick="return confirm('Apakah anda serius?')"><span class="glyphicon glyphicon-trash" aria-hidden="true" data-toggle="tooltip" title="Hapus"></span> </button>
                                 </form>
 </td>
+@include('riwayat.gambar', ['object' => $log])
                                     </tr>
                                 @endforeach
                                 @endif
@@ -69,7 +69,6 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>No</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Waktu</th>

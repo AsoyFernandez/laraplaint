@@ -11,7 +11,11 @@
          @endif
        @endif
 
+       @if ($log->status < 1)
+       <a class="btn btn-primary btn-xs" disabled href="#"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+       @else
        <a class="btn btn-primary btn-xs" href="{{ route('pengaduan.show', $log->id) }}"><span class="fa fa-eye" aria-hidden="true" data-toggle="tooltip" title="Lihat Riwayat Penanganan"></span></a>
+       @endif
 @if ($log->status == 1)
 @include('pengaduan.tangani', ['object' => $log])
 @else

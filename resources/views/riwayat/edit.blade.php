@@ -52,8 +52,8 @@
                             <div class="col-md-6">
                                 <input id="foto" type="file" class="form-control @error('foto') is-invalid @enderror" name="foto" value="{{ old('foto') }}" autocomplete="foto" autofocus onchange="openFile(event)">
                                 <center>
-                                @if (isset($pengaduan) && $pengaduan->foto)
-                                <img id="output" class="img-rounded img-responsive " style="width: 20rem; height: 20rem" src="{!!asset('img/'.$pengaduan->foto)!!}">
+                                @if (isset($riwayat) && $riwayat->foto)
+                                <img id="output" class="img-rounded img-responsive " style="width: 20rem; height: 20rem" src="{!!asset('img/'.$riwayat->foto)!!}">
                               @else
                                  Foto belum di upload
                               @endif
