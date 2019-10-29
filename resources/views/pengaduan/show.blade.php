@@ -28,8 +28,12 @@
                     <div class="box-body">
                         @if (Auth::user()->role->id == 3)
                             {{-- expr --}}
-                  <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a> <a class="btn btn-primary" href="#">Cetak</a></p>
 
+                  <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a> 
+                        <a class="btn btn-primary" href="{{ route('riwayat.show', $pengaduan) }}">Cetak</a></p>
+                        @else
+                        <p><a class="btn btn-primary" href="{{ route('riwayat.show', $pengaduan) }}">Cetak</a></p>
+                        
                         @endif
                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">

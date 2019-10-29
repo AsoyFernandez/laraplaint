@@ -36,10 +36,19 @@ Route::resource('kategori', 'KategoriController');
 Route::get('/ajax/mesin/search', 'MesinController@ajaxSearch')->name('mesin.search');
 Route::resource('mesin', 'MesinController');
 Route::get('pengaduan/create/{lokasi}/{mesin}','PengaduanController@autoCreate')->name('pengaduan.createQR');
+
+Route::get('pengaduan/filter','PengaduanController@filter')->name('pengaduan.filter')
+;
+
+Route::get('pengaduan/printAll/{awal}/{akhir}','PengaduanController@printAll')->name('pengaduan.printAll')
+;
+
 Route::resource('pengaduan', 'PengaduanController');
 Route::resource('penanganan', 'PenangananController');
 Route::get('riwayat/{pengaduan}', 'RiwayatController@create')->name('riwayat.create');
 Route::get('pengaduan/{pengaduan}/riwayat/{riwayat}', 'RiwayatController@edit')->name('riwayat.edit');
+
+Route::get('pengaduan/{pengaduan}/riwayat', 'RiwayatController@show')->name('riwayat.show');
 
 Route::put('pengaduan/{pengaduan}/riwayat/{riwayat}', 'RiwayatController@update')->name('riwayat.update');
 

@@ -26,6 +26,14 @@
                     </div>
                     <div class="box-body">
                   <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a></p>
+                  <p><form action="{{ route('pengaduan.filter') }}">
+                    @if (isset($min) && isset($max))
+                    Dari : <input type="date"  id="min" name="min" value="{{ $min }}"> Sampai : <input type="date" id="max" name="max" value="{{ $max }}"> <button class="btn btn-primary btn-sm">Filter</button> <a href="{{ route('pengaduan.index') }}" class="btn btn-primary btn-sm">Semua</a> 
+                     <a href="{{ route('pengaduan.printAll', [$min, $max]) }}" class="btn btn-info btn-sm">Print</a>
+                     @else
+                     Dari : <input type="date"  id="min" name="min" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"> Sampai : <input type="date" id="max" name="max" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"> <button class="btn btn-primary btn-sm">Filter</button> <a href="{{ route('pengaduan.index') }}" class="btn btn-primary btn-sm">Semua</a>
+                 @endif</p>
+                    </form>
                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>
@@ -86,5 +94,7 @@
 @section('js')
     
     <script> console.log('Hi!'); </script>
-        
+    <script>
+
+    </script>        
 @stop

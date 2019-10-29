@@ -10,12 +10,12 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url('/home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('pengaduan.index') }}">Pengaduan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Buat Pengaduan</li>
+                <li class="breadcrumb-item active" aria-current="page">Buat Bukti Penanganan</li>
               </ol>
             </nav>
             <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h2 class="box-title">Buat Pengaduan</h2>
+                        <h2 class="box-title">Buat Bukti Penanganan</h2>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -39,6 +39,7 @@
                             <div class="col-md-6 radio">
                                 <label><input type="radio" required="" value="0" name="status">Tunggu</label>
                               <label><input type="radio" value="1" required="" name="status">Selesai</label>
+                              <label><input type="radio" value="2" required="" name="status">Tarik HO</label>
 
                                 @error('status')
                                     <span class="invalid-feedback" role="alert">

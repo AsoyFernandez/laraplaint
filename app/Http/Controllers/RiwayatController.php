@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Penanganan;
 use App\Pengaduan;
 use File;
+use PDF;
 class RiwayatController extends Controller
 {
     /**
@@ -83,9 +84,12 @@ class RiwayatController extends Controller
      * @param  \App\Riwayat  $riwayat
      * @return \Illuminate\Http\Response
      */
-    public function show(Riwayat $riwayat)
+    public function show(Pengaduan $pengaduan)
     {
-        //
+        // return view('riwayat.show', compact('pengaduan'));
+
+        $pdf = PDF::loadView('riwayat.show', compact('pengaduan'));
+        return $pdf->stream('unduh.pdf');
     }
 
     /**

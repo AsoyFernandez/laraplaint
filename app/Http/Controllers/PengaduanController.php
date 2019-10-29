@@ -12,6 +12,7 @@ use App\Mail\PengaduanEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendEmail;
 use App\User;
+use PDF;
 class PengaduanController extends Controller
 {
     /**
@@ -21,17 +22,40 @@ class PengaduanController extends Controller
      */
     public function index()
     {
+        $pengaduan = Pengaduan::all();
+        // if ($request->all() == '[]') {
+        //     $pengaduan = $pengaduan;
+        // }elseif ($request->all() != '[]') {
+        //     # code...
+        //     $pengaduan = Pengaduan::whereBetween('created_at', [$request->min, $request->max])->get();
+        // }
+        $lokasiUser = [];
+        foreach (Auth::user()->lokasis as $key) {
+            $lokasiUser[] = $key->id;
+        }
+
+        if (Auth::user()->role->id == 2) {
+            $pengaduan = Pengaduan::where('user_id', Auth::id())->get();
+        }
+        return view('pengaduan.index', compact('pengaduan', 'lokasiUser'));
+    }
+
+    public function filter(Request $request){
+
+        $pengaduan = Pengaduan::whereBetween('created_at', [$request->min, $request->max])->get();
 
         $lokasiUser = [];
         foreach (Auth::user()->lokasis as $key) {
             $lokasiUser[] = $key->id;
         }
 
-        $pengaduan = Pengaduan::all();
         if (Auth::user()->role->id == 2) {
             $pengaduan = Pengaduan::where('user_id', Auth::id())->get();
         }
-        return view('pengaduan.index', compact('pengaduan', 'lokasiUser'));
+        $min = $request->min;
+        $max = $request->max;
+        return view('pengaduan.index', compact('pengaduan', 'lokasiUser', 'min', 'max'));
+
     }
 
     /**
@@ -177,6 +201,13 @@ class PengaduanController extends Controller
     public function show(Pengaduan $pengaduan)
     {
         return view('pengaduan.show',compact('pengaduan'));
+    }
+
+    public function printAll($awal, $akhir){
+        $pengaduan = Pengaduan::whereBetween('created_at', [$awal, $akhir])->get();
+        // return view('pengaduan.printAll', compact('pengaduan'));
+        $pdf = PDF::loadView('pengaduan.printAll', compact('pengaduan'));
+        return $pdf->stream('unduh.pdf');
     }
 
     /**
