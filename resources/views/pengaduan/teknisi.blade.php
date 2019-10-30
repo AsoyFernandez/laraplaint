@@ -1,5 +1,6 @@
 Teknisi
 @foreach ($pengaduan as $log)
+@if (is_null($log->penanganan))
                                     <tr>   
                                         <td><a href="#myModal" id="openBtn" data-toggle="modal" data-target="{{ '#' . $log->id . 'gambar' }}">{{ $log->no_pengaduan }}</a>
                                             @include('pengaduan.gambar', ['object' => $log])</td>
@@ -25,4 +26,5 @@ Teknisi
                                         @include('pengaduan.actionTeknisi') 
                                         </td>
                                     </tr>
+@endif
                                 @endforeach

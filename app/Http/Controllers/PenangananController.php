@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Penanganan;
 use Illuminate\Http\Request;
 use App\Pengaduan;
+use Auth;
 class PenangananController extends Controller
 {
     /**
@@ -14,7 +15,8 @@ class PenangananController extends Controller
      */
     public function index()
     {
-        //
+        $penanganan = Penanganan::where('user_id', Auth::id())->get();
+        return view('penanganan.index', compact('penanganan'));
     }
 
     /**
@@ -91,6 +93,11 @@ class PenangananController extends Controller
      */
     public function destroy(Penanganan $penanganan)
     {
-        //
+        $pengaduan = Pengaduan::find($penanganan->pengaduan_id);
+        $pengaduan->update([
+            'status' => 1,
+        ]);
+        $penanganan->delete();
+        return redirect()->route('penanganan.index');
     }
 }
