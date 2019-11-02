@@ -18,6 +18,8 @@ Super User
                                             @include('pengaduan.pic', ['object' => $log])</td>
                                             @elseif($log->status == 3)
                                             <td>Selesai</td>
+                                            @elseif($log->status == 4)
+                                            <td>Tarik HO</td>
                                         @endif
                                         <td>{{ $log->keterangan }}</td>
                                         <td>{{ $log->created_at }}</td>

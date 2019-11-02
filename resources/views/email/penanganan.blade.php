@@ -34,9 +34,9 @@ background: none;
 </style>
 </head>
 <body>
-    <h3><u>Pengaduan Kerusakan Mesin No : {{ $data['no'] }}</u></h3>
+    <h3><u>Konfirmasi Penanganan Teknisi</u></h3>
     <p>
-       <b>{{ $data['user'] }}</b> telah membuat pengaduan terkait kerusakan mesin <b>{{ $data['mesin'] }}</b> pada lokasi <b>{{ $data['lokasi'] }}</b> dengan keterangan <b>{{ $data['keterangan'] }} dan sedang menunggu konfirmasi Area Supervisor yang bersagkutan</b>
+        pengaduan no <b>{{ $pengaduan->no_pengaduan }}</b> telah dikonfirmasi oleh <b>{{ $data['user'] }}</b> selaku Teknisi dan sedang menunggu bukti penanganan
     </p>
     
 </body>

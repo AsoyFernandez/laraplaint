@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-it
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('pengaduan.index') }}">Pengaduan</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Riwayat Penanganan</li>
               </ol>
@@ -26,7 +26,9 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        @if (Auth::user()->role->id == 3)
+                @if (!is_null($pengaduan->penanganan))
+                    {{-- expr --}}
+                @if (Auth::user()->role->id == 3)
                             {{-- expr --}}
 
                   <p><a class="btn btn-primary" href="{{ route('pengaduan.create') }}">Tambah</a> 
@@ -35,6 +37,7 @@
                         <p><a class="btn btn-primary" href="{{ route('riwayat.show', $pengaduan) }}">Cetak</a></p>
                         
                         @endif
+                @endif
                        <div class="table-responsive">
                         <table id="example" class="table table-bordered table-striped display responsive nowrap compact" style="width:100%">
                             <thead>
@@ -52,8 +55,10 @@
                                     <tr>   
                                         @if ($log->status == 0)
                                         <td>Menunggu</td>
-                                        @else
+                                        @elseif ($log->status == 1)
                                         <td>Selesai</td>
+                                        @elseif ($log->status == 2)
+                                        <td>Tarik Ho</td>
                                         @endif
                                         <td>{{ $log->keterangan }}</td>
                                         <td>{{ $log->created_at }}</td>

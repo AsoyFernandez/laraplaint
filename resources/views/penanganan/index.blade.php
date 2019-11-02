@@ -33,6 +33,7 @@
                                     <th>Lokasi</th>
                                     <th>Mesin</th>
                                     <th>Konfirmasi</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -44,6 +45,13 @@
                                         <td>{{ $log->pengaduan->lokasi->nama }}</td>
                                         <td>{{ $log->pengaduan->mesin->nama }}</td>
                                         <td>{{ $log->created_at }}</td>
+                                        <td>@if ($log->pengaduan->status == 2)
+                                            Dalam Penanganan
+                                            @elseif($log->pengaduan->status == 3)
+                                            Selesai
+                                            @elseif($log->pengaduan->status == 4)
+                                            Tarik HO
+                                        @endif</td>
                                         <td>@include('penanganan.action')</td>
                                     </tr>
                                 @endforeach
@@ -54,6 +62,7 @@
                                     <th>Lokasi</th>
                                     <th>Mesin</th>
                                     <th>Konfirmasi</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </tfoot>

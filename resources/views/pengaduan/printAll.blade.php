@@ -127,6 +127,8 @@ img,tr {page-break-inside: avoid;}
 				<td>Status : Menunggu</td>
 				@elseif ($el->status == 1)
 				<td>Status : Selesai</td>
+				@elseif ($el->status == 2)
+				<td>Status : Tarik HO</td>
 				@endif
 			</tr>
 			<tr>

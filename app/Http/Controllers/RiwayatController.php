@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Penanganan;
 use App\Pengaduan;
 use File;
+use App\User;
+use App\Lokasi;
 use PDF;
+use Mail;
 class RiwayatController extends Controller
 {
     /**
@@ -40,6 +43,46 @@ class RiwayatController extends Controller
     public function store(Request $request)
     {
         $penanganan = Penanganan::find($request->penanganan_id);
+        $pengaduan = Pengaduan::find($penanganan->pengaduan_id);
+        $lokasi = Lokasi::find($pengaduan->lokasi_id);
+        $user = User::find($pengaduan->user_id);
+        $teknisi = User::find($penanganan->user_id);
+        $url = route('pengaduan.show', $pengaduan);
+        // dd($url);
+        $status = 'Masih dalam penanganan';
+        if ($request->status == 1) {
+            $status = 'Selesai';   
+        }elseif ($request->status == 2) {
+            $status = 'Ditarik ke HO';
+        }
+        $data = [
+            'teknisi'=>$teknisi->name,
+            'status'=>$status,
+            'url'=>$url,
+        ];
+        // kirim email
+            if ($lokasi->users != "[]") {
+                foreach ($lokasi->users as $log) {
+                    
+                    //Broadcast ke selain outlet leader, selain teknisi, dan selain yang konfirm
+                    if ($log->role_id != 2 or $log->role_id != 3 or $log->id != $request->user_id) {
+                    
+                        Mail::send('email.buktiPenanganan', compact('pengaduan', 'data'), function ($m) use ($log
+                        ) {
+                        $m->to($log->email)->subject('Bukti Penanganan Teknisi');
+                        });    
+                    //broadcast ke pembuat pengaduan
+                    }elseif ($log->id == $pengaduan->user_id) {
+                        Mail::send('email.buktiPenanganan', compact('pengaduan', 'data'), function ($m) use ($log
+                        ) {
+                            $m->to($log->email)->subject('Bukti Penanganan Teknisi');
+                        });
+                    }
+                    
+                }
+            }
+            //
+        dd($pengaduan);
         $this->validate($request,[
             'penanganan_id'=>'required|exists:penanganans,id',
             'status'=>'required',
@@ -72,9 +115,13 @@ class RiwayatController extends Controller
                 $penanganan->pengaduan->update([
                     'status'=>3,
                 ]);
+            }elseif ($request->status == 2) {
+                $penanganan->pengaduan->update([
+                    'status'=>4,
+                ]);
             }
             alert()->success("Berhasil mengirim pengaduan", 'Sukses!')->autoclose(2500);
-            return redirect()->route('pengaduan.index');
+            return redirect()->route('penanganan.index');
 
     }
 
@@ -138,9 +185,23 @@ class RiwayatController extends Controller
         $riwayat->save();
         }
 
+        if ($request->status == 1) {
+                $penanganan->pengaduan->update([
+                    'status'=>3,
+                ]);
+            }elseif ($request->status == 2) {
+                $penanganan->pengaduan->update([
+                    'status'=>4,
+                ]);
+            }elseif ($request->status == 0) {
+                $penanganan->pengaduan->update([
+                    'status'=>2,
+                ]);
+            }
+
         alert()->success("Berhasil mengubah data pengaduan", 'Sukses!')->autoclose(2500);
 
-        return redirect()->route('pengaduan.index');
+        return redirect()->route('penanganan.index');
     }
 
     /**

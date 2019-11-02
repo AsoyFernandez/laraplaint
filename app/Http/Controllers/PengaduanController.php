@@ -89,12 +89,6 @@ class PengaduanController extends Controller
         $lokasi = Lokasi::find($request->lokasi_id);
         $mesin = Mesin::find($request->mesin_id);
         $user = User::find($request->user_id);     
-        $data = [
-            'lokasi' => $lokasi->nama,
-            'mesin' => $mesin->nama,
-            'user' => $user->name,
-            'keterangan' => $request->keterangan,
-        ];
 
 
         $this->validate($request,[
@@ -139,6 +133,13 @@ class PengaduanController extends Controller
         if ($user->role_id != 2) {
             $pengaduan->status = 1;
         }
+        $data = [
+            'lokasi' => $lokasi->nama,
+            'mesin' => $mesin->nama,
+            'user' => $user->name,
+            'keterangan' => $request->keterangan,
+            'no' => $no_pengaduan,
+        ];
         $pengaduan->no_pengaduan = $no_pengaduan;
         // isi field cover jika ada cover yang diupload
             if ($request->hasFile('foto')) {
@@ -163,13 +164,13 @@ class PengaduanController extends Controller
             }
             ;
                
-        // kirim email
+            // kirim email
             if ($lokasi->users != "[]") {
-                foreach ($lokasi->users->where('role_id', 4) as $log) {
+                foreach ($lokasi->users->where('role_id', '!=', 2) as $log) {
                     
                     if ($log->id != $request->user_id) {
                         
-                    // $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
+                    $emailJob = Mail::to($log->email)->queue(new PengaduanEmail($data));
                     }
                     
                 }

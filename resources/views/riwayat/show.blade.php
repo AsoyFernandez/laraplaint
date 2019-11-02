@@ -114,6 +114,8 @@ img,tr {page-break-inside: avoid;}
 				<td>Status : Menunggu</td>
 				@elseif ($log->status == 1)
 				<td>Status : Selesai</td>
+				@elseif ($log->status == 2)
+				<td>Status : Tarik HO</td>
 				@endif
 			</tr>
 			<tr>

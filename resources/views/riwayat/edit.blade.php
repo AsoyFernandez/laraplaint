@@ -37,6 +37,7 @@
                             <div class="col-md-6 radio">
                                 <label><input type="radio" required="" value="0" name="status" {{ old('status', $riwayat->status) == "0" ? 'checked' : '' }}>Tunggu</label>
                               <label><input type="radio" value="1" required="" name="status" {{ old('status', $riwayat->status) == "1" ? 'checked' : '' }}>Selesai</label>
+                              <label><input type="radio" value="2" required="" name="status" {{ old('status', $riwayat->status) == "2" ? 'checked' : '' }}>Tarik HO</label>
 
                                 @error('status')
                                     <span class="invalid-feedback" role="alert">

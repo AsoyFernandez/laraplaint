@@ -16,6 +16,8 @@
           {{ $log->pengaduan->created_at }}
           <br>
           {{ $log->pengaduan->keterangan }}
+          <br>
+          {{ $log->pengaduan->user->name }}
         </center>    
       </div>
       <div class="modal-footer">
