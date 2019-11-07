@@ -113,7 +113,9 @@
                     </li>
                     @endif
                     <li><a href="{{ route('pengaduan.index') }}"><i class='glyphicon glyphicon-send'></i><span>{{ trans('Pengaduan') }}</span></a></li>
+                    @if (Auth::user()->role_id == 3)
                     <li><a href="{{ route('penanganan.index') }}"><i class='glyphicon glyphicon-book'></i><span>{{ trans('Penanganan') }}</span></a></li>
+                    @endif
                     <li class="header">Account Setting</li>
                     {{-- <li><a href="{{ route('qr.index') }}"><i class='glyphicon glyphicon-qrcode'></i> <span>{{ trans('QR Code') }}</span></a></li> --}}
                 </ul>

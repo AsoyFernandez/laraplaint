@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Lokasi;
 use Illuminate\Http\Request;
+use Excel;
+use App\Exports\LokasiExport;
+use App\Imports\LokasisImport;
 
 class LokasiController extends Controller
 {
@@ -12,6 +15,31 @@ class LokasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateExcelTemplate(){
+        return Excel::download(new LokasiExport, 'lokasi.xlsx');
+    }
+
+    public function importExcel(Request $request)
+    {
+        //VALIDASI
+        $this->validate($request, [
+            'import' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('import')) {
+            $file = $request->file('import'); //GET FILE
+            Excel::import(new LokasisImport, $file); //IMPORT FILE 
+            // $filename = time() . '.' . $file->getClientOriginalExtension();
+            // $file->storeAs(
+            //     'public', $filename
+            // );
+            // //MEMBUAT JOBS DENGAN MENGIRIMKAN PARAMETER FILENAME
+            // ImportJob::dispatch($filename); 
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
+
     public function index()
     {
         $lokasi = Lokasi::all();

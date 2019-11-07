@@ -82,7 +82,6 @@ class RiwayatController extends Controller
                 }
             }
             //
-        dd($pengaduan);
         $this->validate($request,[
             'penanganan_id'=>'required|exists:penanganans,id',
             'status'=>'required',

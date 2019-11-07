@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Jobs\SendEmail;
 use App\User;
 use PDF;
+use Excel;
+use App\Exports\PengaduanExport;
 class PengaduanController extends Controller
 {
     /**
@@ -20,6 +22,33 @@ class PengaduanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateExcelTemplate(){
+        return Excel::download(new PengaduanExport, 'invoices.xlsx');
+    }
+
+    public function importExcel(Request $request){
+        $excel = $request->file('excel');
+        $excels = Excel::load($excel, function($reader) {
+        // options, jika ada
+        })->get();
+        $num = 1;
+        foreach (array_slice($excels, $num) as $row) {
+        
+        $book = Pengaduan::create([
+        'no_pengaduan' => $row['no_pengaduan'],
+        'mesin_id' => $row['mesin_id'],
+        'lokasi_id' => $row['lokasi_id'],
+        'user_id' => $row['user_id'],
+        'foto' => $row['foto'],
+        'status' => $row['status'],
+        'keterangan' => $row['keterangan'],
+        
+        ]);
+        }
+
+        
+    }
+
     public function index()
     {
         $pengaduan = Pengaduan::all();

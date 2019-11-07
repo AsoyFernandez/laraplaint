@@ -8,6 +8,10 @@ use Alert;
 use App\User;
 use App\Role;
 use App\Lokasi;
+use Excel;
+use App\Exports\UserExport;
+use App\Imports\UserImport;
+
 class UserController extends Controller
 {
     /**
@@ -15,6 +19,33 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateExcelTemplate(){
+        $filename = "./template/user.xlsx";
+        return response()->download($filename);
+    
+        // return Excel::download(new UserExport, 'user.xlsx');
+    }
+
+    public function importExcel(Request $request){
+        //VALIDASI
+        $this->validate($request, [
+            'import' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('import')) {
+            $file = $request->file('import'); //GET FILE
+            Excel::import(new UserImport, $file); //IMPORT FILE 
+            // $filename = time() . '.' . $file->getClientOriginalExtension();
+            // $file->storeAs(
+            //     'public', $filename
+            // );
+            // //MEMBUAT JOBS DENGAN MENGIRIMKAN PARAMETER FILENAME
+            // ImportJob::dispatch($filename); 
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
+
     public function index()
     {
         $user = User::all();

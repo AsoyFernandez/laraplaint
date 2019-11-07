@@ -46,11 +46,11 @@ class User extends Authenticatable
     }
 
     public function penanganans(){
-        return $this->hasMany('App\Penanganan');
+        return $this->hasOne('App\Penanganan');
     }
 
     public function konfirmasis(){
-        return $this->hasMany('App\Konfirmasi');
+        return $this->hasOne('App\Konfirmasi');
     }
 
     public function lokasis(){

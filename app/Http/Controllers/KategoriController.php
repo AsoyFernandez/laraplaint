@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Kategori;
 use Illuminate\Http\Request;
+use Excel;
+use App\Exports\KategoriExport;
+use App\Imports\KategoriImport;
 
 class KategoriController extends Controller
 {
@@ -12,6 +15,29 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateExcelTemplate(){
+        return Excel::download(new KategoriExport, 'kategori.xlsx');
+    }
+
+    public function importExcel(Request $request){
+        //VALIDASI
+        $this->validate($request, [
+            'import' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('import')) {
+            $file = $request->file('import'); //GET FILE
+            Excel::import(new KategoriImport, $file); //IMPORT FILE 
+            // $filename = time() . '.' . $file->getClientOriginalExtension();
+            // $file->storeAs(
+            //     'public', $filename
+            // );
+            // //MEMBUAT JOBS DENGAN MENGIRIMKAN PARAMETER FILENAME
+            // ImportJob::dispatch($filename); 
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
     public function index()
     {
         $kategori = Kategori::all();

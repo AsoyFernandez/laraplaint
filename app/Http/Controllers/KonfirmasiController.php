@@ -41,6 +41,7 @@ class KonfirmasiController extends Controller
         $pengaduan = Pengaduan::find($request->pengaduan_id);
         $lokasi = Lokasi::find($pengaduan->lokasi_id);
         $user = User::find($request->user_id);
+        
         $this->validate($request,[
             'user_id'=>'required|exists:users,id',
             'pengaduan_id'=>'required|exists:pengaduans,id',

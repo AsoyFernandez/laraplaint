@@ -24,14 +24,39 @@ Route::get('/email', function () {
     return view('email');
 });
 Route::group(['middleware'=>['auth']], function () {
+
+Route::get('template/user', [
+'as' => 'template.user',
+'uses' => 'UserController@generateExcelTemplate'
+]);
+Route::post('import/user', [
+'as' => 'import.user',
+'uses' => 'UserController@importExcel'
+]);
+
 Route::post('/user/{user}/storeLokasi', 'UserController@storeLokasi')->name('user.storeLokasi');
 Route::delete('/user/{user}/deleteLokasi/{lokasi}', 'UserController@deleteLokasi')->name('user.deleteLokasi');
 
 Route::resource('user', 'UserController');
 Route::get('/ajax/lokasi/search', 'LokasiController@ajaxSearch')->name('lokasi.search');
+Route::get('template/lokasi', [
+'as' => 'template.lokasi',
+'uses' => 'LokasiController@generateExcelTemplate'
+]);
+Route::post('import/lokasi', [
+'as' => 'import.lokasi',
+'uses' => 'LokasiController@importExcel'
+]);
 Route::resource('lokasi', 'LokasiController');
 Route::resource('konfirmasi', 'KonfirmasiController');
-
+Route::get('template/kategori', [
+'as' => 'template.kategori',
+'uses' => 'KategoriController@generateExcelTemplate'
+]);
+Route::post('import/kategori', [
+'as' => 'import.kategori',
+'uses' => 'KategoriController@importExcel'
+]);
 Route::resource('kategori', 'KategoriController');
 Route::get('/ajax/mesin/search', 'MesinController@ajaxSearch')->name('mesin.search');
 Route::resource('mesin', 'MesinController');
@@ -42,7 +67,14 @@ Route::get('pengaduan/filter','PengaduanController@filter')->name('pengaduan.fil
 
 Route::get('pengaduan/printAll/{awal}/{akhir}','PengaduanController@printAll')->name('pengaduan.printAll')
 ;
-
+Route::get('template/pengaduan', [
+'as' => 'template.pengaduan',
+'uses' => 'PengaduanController@generateExcelTemplate'
+]);
+Route::post('import/pengaduan', [
+'as' => 'import.pengaduan',
+'uses' => 'PengaduanController@importExcel'
+]);
 Route::resource('pengaduan', 'PengaduanController');
 Route::resource('penanganan', 'PenangananController');
 Route::get('riwayat/{pengaduan}', 'RiwayatController@create')->name('riwayat.create');
@@ -66,4 +98,5 @@ Route::delete('/lokasiMesin/{lokasi}/{mesin}', 'LokasiMesinController@destroy')-
 
 Route::get('/qr', 'QRCodeController@index')->name('qr.index');
 Route::get('/qr/{lokasi}/{mesin}', 'QRCodeController@create')->name('qr.create');
+
 });

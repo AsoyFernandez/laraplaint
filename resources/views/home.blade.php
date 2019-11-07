@@ -21,7 +21,7 @@
                     @endif
                     
                     Selamat datang di aplikasi LaraPlaint 
-                    <table id="exampl" class="display nowrap" style="width:100%">
+                    {{-- <table id="exampl" class="display nowrap" style="width:100%">
         <thead>
             <tr>
                 <th>Seq.</th>
@@ -500,7 +500,7 @@
                 <th>Salary</th>
             </tr>
         </tfoot>
-    </table>
+    </table> --}}
                 </div>
             </div>
         </div>
