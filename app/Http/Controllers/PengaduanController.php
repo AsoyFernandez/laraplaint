@@ -15,6 +15,7 @@ use App\User;
 use PDF;
 use Excel;
 use App\Exports\PengaduanExport;
+use App\Imports\PengaduanImport;
 class PengaduanController extends Controller
 {
     /**
@@ -23,28 +24,20 @@ class PengaduanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function generateExcelTemplate(){
-        return Excel::download(new PengaduanExport, 'invoices.xlsx');
+        return Excel::download(new PengaduanExport, 'pengaduan.xlsx');
     }
 
     public function importExcel(Request $request){
-        $excel = $request->file('excel');
-        $excels = Excel::load($excel, function($reader) {
-        // options, jika ada
-        })->get();
-        $num = 1;
-        foreach (array_slice($excels, $num) as $row) {
-        
-        $book = Pengaduan::create([
-        'no_pengaduan' => $row['no_pengaduan'],
-        'mesin_id' => $row['mesin_id'],
-        'lokasi_id' => $row['lokasi_id'],
-        'user_id' => $row['user_id'],
-        'foto' => $row['foto'],
-        'status' => $row['status'],
-        'keterangan' => $row['keterangan'],
-        
+        $this->validate($request, [
+            'import' => 'required|mimes:xls,xlsx'
         ]);
-        }
+
+        if ($request->hasFile('import')) {
+            $file = $request->file('import'); //GET FILE
+            Excel::import(new PengaduanImport, $file); //IMPORT FILE  
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
 
         
     }

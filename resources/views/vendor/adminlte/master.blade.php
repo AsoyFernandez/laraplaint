@@ -40,16 +40,20 @@
 
 @yield('body')
 
-<script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script>
-{{-- <script src="{{ asset('js/jquery-3.3.1.js') }}"></script> --}}
+{{-- <script src="{{ asset('vendor/jquery/dist/jquery.min.js') }}"></script> --}}
+<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+<script src="{{ asset('js/jquery.dataTables.min.js') }}" ></script>
 
+<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
 <script src="{{ asset('vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/jquery.dataTables.min.js') }}" defer></script>
-<script src="{{ asset('js/dataTables.rowReorder.min.js') }}"></script>
-<script src="{{ asset('js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('js/datatables.js') }}" defer></script>
-<script src="{{ asset('js/validator.min.js') }}" defer></script>
+
+{{-- <script src="{{ asset('js/dataTables.rowReorder.min.js') }}"></script>
+
+ --}}
+ <script src="{{ asset('js/datatables.js') }}" ></script>
+<script src="{{ asset('js/validator.min.js') }}"></script>
+
 <script>
 
     $(document).ready(function() {

@@ -59,6 +59,14 @@ Route::post('import/kategori', [
 ]);
 Route::resource('kategori', 'KategoriController');
 Route::get('/ajax/mesin/search', 'MesinController@ajaxSearch')->name('mesin.search');
+Route::get('template/mesin', [
+'as' => 'template.mesin',
+'uses' => 'MesinController@generateExcelTemplate'
+]);
+Route::post('import/mesin', [
+'as' => 'import.mesin',
+'uses' => 'MesinController@importExcel'
+]);
 Route::resource('mesin', 'MesinController');
 Route::get('pengaduan/create/{lokasi}/{mesin}','PengaduanController@autoCreate')->name('pengaduan.createQR');
 

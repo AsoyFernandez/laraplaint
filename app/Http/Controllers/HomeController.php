@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Mail\PengaduanEmail;
 use Illuminate\Support\Facades\Mail;
-
+use Auth;
 class HomeController extends Controller
 {
     /**

@@ -2,12 +2,12 @@
 
 namespace App\Exports;
 
-use App\Pengaduan;
+use App\Mesin;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class PengaduanExport implements FromCollection, WithHeadings
+class MesinExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -15,16 +15,12 @@ class PengaduanExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'mesin_id',
-            'lokasi_id',
-            'user_id',
-            'foto',
-            'status',
-            'keterangan',
+            'Nama',
+            'kategori_id',
         ];
     }
     public function collection()
     {
-        return Pengaduan::query()->get(['mesin_id', 'lokasi_id', 'user_id', 'foto', 'status', 'keterangan']);
+        return Mesin::query()->get(['nama', 'kategori_id']);
     }
 }

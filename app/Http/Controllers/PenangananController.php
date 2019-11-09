@@ -48,35 +48,41 @@ class PenangananController extends Controller
         $pengaduan = Pengaduan::find($request->pengaduan_id);
         $lokasi = Lokasi::find($pengaduan->lokasi_id);
         $user = User::find($request->user_id);
-        $data = [
-            'user'=>$user->name,
-        ];
-        if ($lokasi->users != "[]") {
-                foreach ($lokasi->users as $log) {
-                    
-                    //Broadcast ke selain outlet leader dan selain yang konfirm
-                    if ($log->role_id != 3 or $log->role_id != 2) {
-                    
-                        Mail::send('email.penanganan', compact('pengaduan', 'data'), function ($m) use ($log
-                        ) {
-                        $m->to($log->email)->subject('Konfirmasi Teknisi');
-                        });    
-                    //broadcast ke pembuat pengaduan
-                    }elseif ($log->id == $pengaduan->user_id) {
-                        Mail::send('email.penanganan', compact('pengaduan', 'data'), function ($m) use ($log
-                        ) {
+
+        if (is_null($pengaduan->penanganan)) {
+        
+            $data = [
+                'user'=>$user->name,
+            ];
+
+            if ($lokasi->users != "[]") {
+                    foreach ($lokasi->users as $log) {
+                        
+                        //Broadcast ke selain outlet leader dan selain yang konfirm
+                        if ($log->role_id != 3 or $log->role_id != 2) {
+                        
+                            Mail::send('email.penanganan', compact('pengaduan', 'data'), function ($m) use ($log
+                            ) {
                             $m->to($log->email)->subject('Konfirmasi Teknisi');
-                        });
+                            });    
+                        //broadcast ke pembuat pengaduan
+                        }elseif ($log->id == $pengaduan->user_id) {
+                            Mail::send('email.penanganan', compact('pengaduan', 'data'), function ($m) use ($log
+                            ) {
+                                $m->to($log->email)->subject('Konfirmasi Teknisi');
+                            });
+                        }
+                        
                     }
-                    
                 }
-            }
 
-        $pengaduan->update([
-            'status' => 2,
-        ]);
+            $pengaduan->update([
+                'status' => 2,
+            ]);
 
-        $penanganan = Penanganan::create($request->all());
+            $penanganan = Penanganan::create($request->all());
+        }
+
         return redirect()->route('pengaduan.index');
     }
 

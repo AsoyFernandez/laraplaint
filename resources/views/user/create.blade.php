@@ -13,6 +13,15 @@
                 <li class="breadcrumb-item active" aria-current="page">Tambah Pengguna</li>
               </ol>
             </nav>
+            @if ($errors != '[]')
+                {{-- expr --}}
+                {{ $errors }}
+                @foreach ($errors as $er)
+                    <ul>
+                        <li>{{ $er }}</li>
+                    </ul>
+                @endforeach
+            @endif
             <div class="box box-primary">
                     <div class="box-header with-border">
                         <div class="box-tools pull-right">

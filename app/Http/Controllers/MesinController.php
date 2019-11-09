@@ -1,10 +1,13 @@
 <?php
-
+ 
 namespace App\Http\Controllers;
 
 use App\Mesin;
 use Illuminate\Http\Request;
 use App\Kategori;
+use Excel;
+use App\Imports\MesinImport;
+use App\Exports\MesinExport;
 class MesinController extends Controller
 {
     /**
@@ -12,6 +15,24 @@ class MesinController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateExcelTemplate(){
+        return Excel::download(new MesinExport, 'mesin.xlsx');
+    }
+
+    public function importExcel(Request $request){
+        //VALIDASI
+        $this->validate($request, [
+            'import' => 'required|mimes:xls,xlsx'
+        ]);
+
+        if ($request->hasFile('import')) {
+            $file = $request->file('import'); //GET FILE
+            Excel::import(new MesinImport, $file); //IMPORT FILE  
+            return redirect()->back()->with(['success' => 'Upload success']);
+        }  
+        return redirect()->back()->with(['error' => 'Please choose file before']);
+    }
+
     public function index()
     {
         $mesin = Mesin::all();

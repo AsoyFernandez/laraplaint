@@ -13,6 +13,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Buat Pengaduan</li>
               </ol>
             </nav>
+            {{ $errors }}
             <div class="box box-primary">
                     <div class="box-header with-border">
 
