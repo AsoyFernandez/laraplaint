@@ -33,7 +33,7 @@
 
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-
+    
 </head>
 
 <body class="hold-transition @yield('body_class')" style="table-layout: fixed;">
@@ -51,6 +51,8 @@
 {{-- <script src="{{ asset('js/dataTables.rowReorder.min.js') }}"></script>
 
  --}}
+ <script src="{{ asset('js/push.js') }}" ></script>
+ <script src="{{ asset('js/serviceWorker.min.js') }}" ></script>
  <script src="{{ asset('js/datatables.js') }}" ></script>
 <script src="{{ asset('js/validator.min.js') }}"></script>
 
@@ -130,6 +132,8 @@
 
 } );
 </script>
+
+
 <script>
 
 
@@ -189,7 +193,7 @@ $(document).ready( function () {
 } );
     </script>
 @include('adminlte::plugins', ['type' => 'js'])
-
+@include('sweetalert::alert')
 @yield('adminlte_js')
     @include('sweet::alert')
 </body>

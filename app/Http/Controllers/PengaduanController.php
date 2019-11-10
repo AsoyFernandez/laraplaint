@@ -16,6 +16,8 @@ use PDF;
 use Excel;
 use App\Exports\PengaduanExport;
 use App\Imports\PengaduanImport;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class PengaduanController extends Controller
 {
     /**
@@ -28,13 +30,49 @@ class PengaduanController extends Controller
     }
 
     public function importExcel(Request $request){
+        // $i = 0;
+
+        // $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($request->file('import'));
+        // foreach ($objPHPExcel->getActiveSheet()->getDrawingCollection() as $drawing) {
+        //     if ($drawing instanceof \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing) {
+        //         ob_start();
+        //         call_user_func(
+        //             $drawing->getRenderingFunction(),
+        //             $drawing->getImageResource()
+        //         );
+        //         $imageContents = ob_get_contents();
+        // ob_end_clean();
+        // switch ($drawing->getMimeType()) {
+        //     case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_PNG :
+        //         $extension = 'png';
+        //         break;
+        //     case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_GIF:
+        //         $extension = 'gif';
+        //         break;
+        //     case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_JPEG :
+        //         $extension = 'jpg';
+        //         break;
+        //         }
+        //     } else {
+        //         $zipReader = fopen($drawing->getPath(),'r');
+        //         $imageContents = '';
+        //         while (!feof($zipReader)) {
+        //             $imageContents .= fread($zipReader,1024);
+        //         }
+        //         fclose($zipReader);
+        //         $extension = $drawing->getExtension();
+        //     }
+        //     $myFileName = '00_Image_'.++$i.'.'.$extension;
+        //     file_put_contents($myFileName,$imageContents);
+        //     // dd($imageContents);
+        // }
         $this->validate($request, [
             'import' => 'required|mimes:xls,xlsx'
         ]);
-
+        
         if ($request->hasFile('import')) {
             $file = $request->file('import'); //GET FILE
-            Excel::import(new PengaduanImport, $file); //IMPORT FILE  
+            Excel::import(new PengaduanImport($request->import), $file); //IMPORT FILE  
             return redirect()->back()->with(['success' => 'Upload success']);
         }  
         return redirect()->back()->with(['error' => 'Please choose file before']);

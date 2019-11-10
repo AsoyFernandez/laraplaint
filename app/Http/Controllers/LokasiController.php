@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Excel;
 use App\Exports\LokasiExport;
 use App\Imports\LokasisImport;
+Use Alert;
 
 class LokasiController extends Controller
 {
@@ -43,6 +44,9 @@ class LokasiController extends Controller
     public function index()
     {
         $lokasi = Lokasi::all();
+                
+
+
         return view('lokasi.index', compact('lokasi'));
     }
     

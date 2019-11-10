@@ -84,6 +84,34 @@
         },
         responsive: true
     } );
+
    });
     </script>
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'user' => Auth::user(),
+            'csrfToken' => csrf_token(),
+            'vapidPublicKey' => config('webpush.vapid.public_key'),
+            'pusher' => [
+                'key' => config('broadcasting.connections.pusher.key'),
+                'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            ],
+        ]) !!};
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // Push.Permission.request(onGranted, onDenied);
+        Push.create("Berhasil!", {
+            body: '{{ $message }}',
+            icon: '/icon.png',
+            link: '{{ $url }}',
+            timeout: 4000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+        });
+    });
+</script>
 @stop

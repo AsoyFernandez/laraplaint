@@ -9,9 +9,18 @@ use Maatwebsite\Excel\Concerns\WithChunkReading; //IMPORT CHUNK READING
 
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithValidation;
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Http\Request;
 class PengaduanImport implements ToModel, WithHeadingRow, WithChunkReading, WithValidation
 {
     use Importable;
+    protected $import;
+
+     function __construct($import) {
+            $this->import = $import;
+     }
     /**
     * @param array $row
     *
@@ -19,6 +28,45 @@ class PengaduanImport implements ToModel, WithHeadingRow, WithChunkReading, With
     */
     public function model(array $row)
     {
+
+        $i = 0;
+
+        $objPHPExcel = \PhpOffice\PhpSpreadsheet\IOFactory::load($this->import);
+        foreach ($objPHPExcel->getActiveSheet()->getDrawingCollection() as $drawing) {
+            if ($drawing instanceof \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing) {
+                ob_start();
+                call_user_func(
+                    $drawing->getRenderingFunction(),
+                    $drawing->getImageResource()
+                );
+                $imageContents = ob_get_contents();
+        ob_end_clean();
+        switch ($drawing->getMimeType()) {
+            case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_PNG :
+                $extension = 'png';
+                break;
+            case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_GIF:
+                $extension = 'gif';
+                break;
+            case \PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing::MIMETYPE_JPEG :
+                $extension = 'jpg';
+                break;
+                }
+            } else {
+                $zipReader = fopen($drawing->getPath(),'r');
+                $imageContents = '';
+                while (!feof($zipReader)) {
+                    $imageContents .= fread($zipReader,1024);
+                }
+                fclose($zipReader);
+                $extension = $drawing->getExtension();
+            }
+            $myFileName = '00_Image_'.++$i.'.'.$extension;
+            file_put_contents($myFileName,$imageContents);
+            // dd($imageContents);
+        }
+        // dd($imageContents);
+
         $count = count(Pengaduan::all()) + 1;
         $car = \Carbon\Carbon::now();
         $bulan = "I";
@@ -50,7 +98,33 @@ class PengaduanImport implements ToModel, WithHeadingRow, WithChunkReading, With
         }
         $no_pengaduan = "LP-$count/SKJ/$bulan/$tahun";
 
-        dd($row);
+        // dd($row);
+        $pengaduan = new Pengaduan();
+        $pengaduan->mesin_id = $row['mesin_id'];
+        $pengaduan->lokasi_id = $row['lokasi_id'];
+        $pengaduan->user_id = $row['user_id'];
+        $pengaduan->status = $row['status'];
+        $pengaduan->keterangan = $row['keterangan'];
+        $pengaduan->save();
+
+            // Mengambil file yang diupload
+                $uploaded_foto = $imageContents;
+
+            // mengambil extension file
+                $extension = $extension;
+
+            // membuat nama file random berikut extension
+                $filename = md5(time()) . '.' . $extension;
+                
+            // menyimpan cover ke folder public/img
+                $destinationPath = public_path() . DIRECTORY_SEPARATOR . 'img';
+                $uploaded_foto->move($destinationPath, $filename);
+            // mengisi field cover di pengaduan dengan filename yang baru dibuat
+                $pengaduan->foto = $filename;
+                
+
+                $pengaduan->save();
+         
         // return new Pengaduan([
         //     'mesin_id' => $row['mesin_id'],
         //     'lokasi_id' => $row['lokasi_id'],
@@ -59,6 +133,7 @@ class PengaduanImport implements ToModel, WithHeadingRow, WithChunkReading, With
         //     'status' => $row['status'],
         //     'keterangan' => $row['keterangan'],
         // ]);
+        return "ok";
     }
 
     public function rules(): array

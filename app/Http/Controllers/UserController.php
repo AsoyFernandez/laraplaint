@@ -11,6 +11,9 @@ use App\Lokasi;
 use Excel;
 use App\Exports\UserExport;
 use App\Imports\UserImport;
+use Auth;
+use Notification;
+use App\Notifications\PengaduanNotification;
 
 class UserController extends Controller
 {
@@ -49,7 +52,12 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('user.index',compact('user'));
+        $auth = Auth::user();
+        $message = "Berhasil menyimpan data";
+        $url = route('user.index');
+        $notif = Notification::send($auth, new PengaduanNotification($user));
+        $auth->notify(new PengaduanNotification($user));
+        return view('user.index',compact('user', 'message', 'url'));
     }
 
     /**
@@ -96,7 +104,10 @@ class UserController extends Controller
                 $user->lokasis()->attach(Lokasi::find($request->lokasi_id[$i]));
             }
         }
-
+        $auth = User::find(1);
+        $notif = Notification::send($auth, new PengaduanNotification($user));
+        $auth->notify(new PengaduanNotification($user));
+        dd($auth->notifications);
         alert()->success("Berhasil menyimpan data $user->name", 'Sukses!')->autoclose(2500);
         // Session::flash("flash_notification", [
         //     "level"=>"success",
