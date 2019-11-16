@@ -78,12 +78,47 @@
     <script> console.log('Hi!'); </script>
     <script>
         $(document).ready(function() {
-            var table = $('#my').DataTable( {
-        rowReorder: {
-            selector: 'td:nth-child(2)'
-        },
-        responsive: true
-    } );
+            var table = $('#my').DataTable({
+                "paging": true,
+                "searchable": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "columnDefs": [
+                    {"targets": 0},
+                    {"targets": 1},
+                    {"targets": 2},
+                    {"targets": 3},
+                    {"targets": 4,
+                        render: function (text) {
+                                text = '<span class="text text-primary">' + text + '</span>';
+                            return text;
+                        }}
+                ],
+                "order": [[ 3, "desc" ]]
+            });
+
+            $('#my tfoot th').each(function () {
+                var title = $(this).text();
+                var elem = '';
+                  if (title == 'Role') {
+                        elem = '<select class="form-control" name="role"><option value="">Semua</option><option value="Outlet Leader">Outlet Leader</option> <option value="Teknisi">Teknisi</option> <option value="Supervisor Area">Supervisor Area</option> <option value="Super User">Super User</option> </select>';
+                    }else{
+                        elem = '<input class="form-control" type="text" placeholder="' + title + '" />';
+                    }
+                $(this).html(elem);
+            });
+
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+
+                $('input, select', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value, true, false).draw();
+                    }
+                });
+            });
 
    });
     </script>
